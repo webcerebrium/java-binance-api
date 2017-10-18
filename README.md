@@ -14,7 +14,10 @@ For compiling and launching the project from source code, you need
 BINANCE_API_KEY=<key>
 BINANCE_API_SECRET=<secret>
 ```
-As alternative, you can set an environment variables or java properties BINANCE_API_KEY, BINANCE_API_SECRET
+As alternative, you can set an environment variables or java Virtual Machine properties `BINANCE_API_KEY`, `BINANCE_API_SECRET`
+and they will be
+
+### Installing Java
 
 To have Java 8 on clean Ubuntu installation, just run the following
 ```
@@ -26,35 +29,45 @@ apt-get -y install oracle-java8-installer
 
 #### Running from command line
 
-Compile the project with `gradle distZip`. Under `build\distributions` you will have
+Compile the project with `gradle distZip`. Under `build\distributions\java-binance-api-X.X.X\bin` you will have have batch file with command line client.
 
 #### Running in Eclipse
 ==
-This project uses Lombok. You will need to install lombok per guidelines (https://projectlombok.org/download.html) to make the project compile in Eclipse. It will compile via gradle just fine without this additional installation step.
+This project uses Lombok. You will need to [install lombok per guidelines](https://projectlombok.org/download.html) to make the project compile in Eclipse. It will compile via gradle just fine without this additional installation step.
 
 #### Running in Intellij IDEA
 ==
-This project uses Lombok. You will need to install corresponding plugin (https://plugins.jetbrains.com/plugin/6317) and enable `Annotation processing` in your `Compiler` settings. It will compile via gradle just fine without this additional installation step.
+This project uses Lombok. You will need to [install corresponding plugin](https://plugins.jetbrains.com/plugin/6317) and enable `Annotation processing` in your `Compiler` settings. It will compile via gradle just fine without this additional installation step.
 To start, import current directory as Gradle project.
 
 ### Logging Configuration
 
-Logging configuration can be tuned `src/main/resources/logback.xml` (https://logback.qos.ch/manual/index.html)
-Extensive logging is enabled by default.
+Logging configuration can be tuned in `src/main/resources/logback.xml`. To learn more, read about [Logback](https://logback.qos.ch/manual/index.html).
+Logging for requests and and responses is disabled by default
+
+## General Endpoints
+
+#### Checking Server Responsiveness
+```java
+System.out.println((new BinanceApi()).ping() );
+```
+Output: `{}`
+
+#### Getting Server Time
+```java
+System.out.println((new BinanceApi()).time());
+```
+Output: `1508347819649`
+
+## Market Data Endpoints
 
 #### Getting latest price of a symbol
 ```java
-Map<String, BigDecimal> prices = (new BinanceApi()).getPrices('BTC');
-System.out.println("Prices={}", prices.toString());
+System.out.println((new BinanceApi()).pricesMap().get("ETHBTC"));
 ```
-<details>
- <summary>View Response</summary>
-```js
-{ ETHBTC: '0.07003500',
-  LTCBTC: '0.01176700',
-  BNBBTC: '0.00035735'
-}
-</details>
+Output: `0.05628800`
 
-### License
-MIT
+
+
+# License
+MIT. Anyone can copy, change, derive further work from it without any restrictions.

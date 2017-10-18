@@ -25,8 +25,10 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
@@ -71,19 +73,28 @@ public class BinanceRequest {
     }
 
     public BinanceRequest sign(String apiKey, String secretKey, Map<String, String> options) throws BinanceApiException {
-        if (!Strings.isNullOrEmpty(secretKey)) {
+        if (!Strings.isNullOrEmpty(secretKey) && !requestUrl.contains("&signature=")) {
             List<String> list = new LinkedList<>();
             if (options != null) {
                 for (String key : options.keySet()) {
                     list.add(key + "=" + options.get(key));
                 }
             }
-            list.add("recvWindow=" + 6500);
+            list.add("recvWindow=" + 6000);
             list.add("timestamp=" + String.valueOf(new Date().getTime()));
-            String query = String.join("&", list);
+            String queryToAdd = String.join("&", list);
+            String query = "";
+            log.info("RequestUrl = {}", requestUrl);
+            if (requestUrl.contains("?")) {
+                query = requestUrl.substring(requestUrl.indexOf('?') + 1) + "&";
+            }
+            query = query.concat(queryToAdd);
+
+            log.info("Query to be included in signature = {} queryToAdd={}", query, queryToAdd);
             try {
                 String signature = encode(secretKey, query); // set the HMAC hash header
-                this.requestUrl += "?" + query + "&signature=" + signature;
+                String concatenator = requestUrl.contains("?") ? "&" : "?";
+                requestUrl += concatenator + queryToAdd + "&signature=" + signature;
             } catch (Exception e ) {
                 throw new BinanceApiException("Encryption error " + e.getMessage());
             }
@@ -181,7 +192,6 @@ public class BinanceRequest {
         if (conn == null) {
             connect();
         }
-        int code = 0;
         try {
 
             // posting payload it we do not have it yet
@@ -194,13 +204,28 @@ public class BinanceRequest {
                 writer.close();
             }
 
-            BufferedReader br = new BufferedReader( new InputStreamReader(conn.getInputStream()));
+            InputStream is;
+            if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                is = conn.getInputStream();
+            } else {
+                /* error from server */
+                is = conn.getErrorStream();
+            }
+
+            BufferedReader br = new BufferedReader( new InputStreamReader(is));
             lastResponse = IOUtils.toString(br);
-            // code = conn.getResponseCode();
-            // lastResponse = conn.getResponseMessage();
             log.info("Response: {}", lastResponse);
+
+            if (conn.getResponseCode() >= HttpURLConnection.HTTP_BAD_REQUEST) {
+                // Try to parse JSON
+                JsonObject obj = (JsonObject)jsonParser.parse(lastResponse);
+                if (obj.has("code") && obj.has("msg")) {
+                    throw new BinanceApiException("ERROR: " +
+                            obj.get("code").getAsString() + ", " + obj.get("msg").getAsString() );
+                }
+            }
         } catch (IOException e) {
-            throw new BinanceApiException("Error in reading response " + e.getMessage() + " code: " + code);
+            throw new BinanceApiException("Error in reading response " + e.getMessage());
         }
         return this;
     }
