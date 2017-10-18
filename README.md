@@ -15,9 +15,9 @@ BINANCE_API_KEY=<key>
 BINANCE_API_SECRET=<secret>
 ```
 As alternative, you can set an environment variables or java Virtual Machine properties `BINANCE_API_KEY`, `BINANCE_API_SECRET`
-and they will be
+and they will be accepted in higher priority comparing to resource file.
 
-### Installing Java
+#### Installing Java
 
 To have Java 8 on clean Ubuntu installation, just run the following
 ```
@@ -36,11 +36,9 @@ Tests with API coverage could be launched with `gradle test`.
 Compile the project with `gradle distZip`. Under `build\distributions\java-binance-api-X.X.X\bin` you will have have batch file with command line client.
 
 #### Running in Eclipse
-==
 This project uses Lombok. You will need to [install lombok per guidelines](https://projectlombok.org/download.html) to make the project compile in Eclipse. It will compile via gradle just fine without this additional installation step.
 
 #### Running in Intellij IDEA
-==
 This project uses Lombok. You will need to [install corresponding plugin](https://plugins.jetbrains.com/plugin/6317) and enable `Annotation processing` in your `Compiler` settings. It will compile via gradle just fine without this additional installation step.
 To start, import current directory as Gradle project.
 
@@ -63,7 +61,7 @@ System.out.println((new BinanceApi()).ping() );
 ```java
 System.out.println((new BinanceApi()).time().get("serverTime").getAsString());
 ```
-<details><summary>View Output</summary>`1508364584572`</details>
+<details><summary>View Output</summary>1508364584572</details>
 
 ## Market Data Endpoints
 
@@ -71,7 +69,7 @@ System.out.println((new BinanceApi()).time().get("serverTime").getAsString());
 ```java
 System.out.println((new BinanceApi()).pricesMap().get("ETHBTC"));
 ```
-<details><summary>View Output</summary>`0.05628800`</details>
+<details><summary>View Output</summary>0.05628800</details>
 
 
 # License
