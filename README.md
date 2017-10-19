@@ -17,19 +17,9 @@ BINANCE_API_SECRET=<secret>
 As alternative, you can set an environment variables or java Virtual Machine properties `BINANCE_API_KEY`, `BINANCE_API_SECRET`
 and they will be accepted in higher priority comparing to resource file.
 
-#### Installing Java
-
-To have Java 8 on clean Ubuntu installation, just run the following
-```
-apt-get -y install software-properties-common
-add-apt-repository -y ppa:webupd8team/java && apt-get -y update
-echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections
-apt-get -y install oracle-java8-installer
-```
-
 #### Running tests
 
-Tests with API coverage could be launched with `gradle test`.
+Tests with API coverage could be launched with `gradle test`. Before running, make sure API keys are set as described above.
 
 #### Running from command line
 
@@ -55,13 +45,13 @@ Logging for requests and responses is disabled by default in the application run
 ```java
 System.out.println((new BinanceApi()).ping() );
 ```
-<details><summary>View Output</summary>{}</details>
+<details><summary>View Output</summary><pre>{}</pre></details>
 
 #### Getting Server Time
 ```java
 System.out.println((new BinanceApi()).time().get("serverTime").getAsString());
 ```
-<details><summary>View Output</summary>1508364584572</details>
+<details><summary>View Output</summary><pre>1508364584572</pre></details>
 
 ## Getting Account Information
 
@@ -78,7 +68,7 @@ System.out.println("Can Withdraw: " + account.get("canWithdraw").getAsBoolean())
 System.out.println("Can Deposit: " + account.get("canDeposit").getAsBoolean());
 ```
 <details><summary>View Output</summary>
-```
+<pre>
 Maker Commission: 10
 Taker Commission: 10
 Buyer Commission: 0
@@ -86,7 +76,7 @@ Seller Commission: 0
 Can Trade: true
 Can Withdraw: true
 Can Deposit: true
-```
+</pre>
 </details>
 
 #### Getting All Balances
@@ -95,7 +85,7 @@ Can Deposit: true
 System.out.println((new BinanceApi()).balances());
 ```
 <details><summary>View Output</summary>
-[{"asset":"BTC","free":"0.00001161","locked":"0.00000000"},{"asset":"LTC","free":"0.00000000","locked":"0.00000000"},...,{"asset":"ZEC","free":"0.00000000","locked":"0.00000000"}]
+<pre>[{"asset":"BTC","free":"0.00001161","locked":"0.00000000"},{"asset":"LTC","free":"0.00000000","locked":"0.00000000"},...,{"asset":"ZEC","free":"0.00000000","locked":"0.00000000"}]</pre>
 </details>
 
 #### Getting Asset Balance
@@ -103,7 +93,7 @@ System.out.println((new BinanceApi()).balances());
 System.out.println((new BinanceApi()).balancesMap().get("ETH"));
 ```
 <details><summary>View Output</summary>
-BinanceWalletAsset(asset=ETH, free=0.00859005, locked=0E-8)
+<pre>BinanceWalletAsset(asset=ETH, free=0.00859005, locked=0E-8)</pre>
 </details>
 
 #### Getting Open Orders
@@ -111,7 +101,7 @@ BinanceWalletAsset(asset=ETH, free=0.00859005, locked=0E-8)
 System.out.println((new BinanceApi()).openOrders(BinanceSymbol.valueOf("ETHBTC")));
 ```
 <details><summary>View Output</summary>
-[BinanceOrder(symbol=ETHBTC, orderId=11111, clientOrderId=hNch6HItMQp2m9VuQZaA6L, price=0.18200000, origQty=1.00000000, executedQty=0E-8, status=NEW, timeInForce=GTC, type=LIMIT, side=SELL, stopPrice=0E-8, icebergQty=0E-8, time=1508361363677)]
+<pre>[BinanceOrder(symbol=ETHBTC, orderId=11111, clientOrderId=hNch6HItMQp2m9VuQZaA6L, price=0.18200000, origQty=1.00000000, executedQty=0E-8, status=NEW, timeInForce=GTC, type=LIMIT, side=SELL, stopPrice=0E-8, icebergQty=0E-8, time=1508361363677)]</pre>
 </details>
 
 #### Checking Order Status
@@ -122,7 +112,7 @@ System.out.println(api.getOrderById(symbol, 333821L));
 System.out.println(api.getOrderByOrigClientId(symbol, "2m9VuQZaA6LhNch6HItMQp"));
 ```
 <details><summary>View Output</summary>
-BinanceOrder(symbol=ETHBTC, orderId=333821, clientOrderId=2m9VuQZaA6LhNch6HItMQp, price=0.18200000, origQty=1.00000000, executedQty=0E-8, status=NEW, timeInForce=GTC, type=LIMIT, side=SELL, stopPrice=0E-8, icebergQty=0E-8, time=1508361363677)
+<pre>BinanceOrder(symbol=ETHBTC, orderId=333821, clientOrderId=2m9VuQZaA6LhNch6HItMQp, price=0.18200000, origQty=1.00000000, executedQty=0E-8, status=NEW, timeInForce=GTC, type=LIMIT, side=SELL, stopPrice=0E-8, icebergQty=0E-8, time=1508361363677)</pre>
 </details>
 
 #### Getting All Orders
@@ -130,7 +120,7 @@ BinanceOrder(symbol=ETHBTC, orderId=333821, clientOrderId=2m9VuQZaA6LhNch6HItMQp
 System.out.println((new BinanceApi()).allOrders(BinanceSymbol.valueOf("BQXBTC")));
 ```
 <details><summary>View Output</summary>
-[BinanceOrder(symbol=BQXBTC, orderId=11111, clientOrderId=D0qeCsEBxKaXSRwxKUZkBZ, price=0.00018602, origQty=309.00000000, executedQty=309.00000000, status=FILLED, timeInForce=GTC, type=LIMIT, side=BUY, stopPrice=0E-8, icebergQty=0E-8, time=1506498038089), ... , BinanceOrder(symbol=BQXBTC, orderId=222222, clientOrderId=p2m9VuQZaA6LhNch6HItMQ, price=0.18200000, origQty=1.00000000, executedQty=0E-8, status=NEW, timeInForce=GTC, type=LIMIT, side=SELL, stopPrice=0E-8, icebergQty=0E-8, time=1508361363677)]
+<pre>[BinanceOrder(symbol=BQXBTC, orderId=11111, clientOrderId=D0qeCsEBxKaXSRwxKUZkBZ, price=0.00018602, origQty=309.00000000, executedQty=309.00000000, status=FILLED, timeInForce=GTC, type=LIMIT, side=BUY, stopPrice=0E-8, icebergQty=0E-8, time=1506498038089), ... , BinanceOrder(symbol=BQXBTC, orderId=222222, clientOrderId=p2m9VuQZaA6LhNch6HItMQ, price=0.18200000, origQty=1.00000000, executedQty=0E-8, status=NEW, timeInForce=GTC, type=LIMIT, side=SELL, stopPrice=0E-8, icebergQty=0E-8, time=1508361363677)]</pre>
 </details>
 
 
@@ -139,7 +129,7 @@ System.out.println((new BinanceApi()).allOrders(BinanceSymbol.valueOf("BQXBTC"))
 System.out.println((new BinanceApi()).myTrades(BinanceSymbol.valueOf("BQXBTC")));
 ```
 <details><summary>View Output</summary>
-[BinanceTrade(id=1321, commissionAsset=BQX, price=0.00018602, qty=38.00000000, commission=0.03800000, time=1506499148055, isBuyer=true, isMaker=true, isBestMatch=true), ... , BinanceTrade(id=6315, commissionAsset=BNB, price=0.00015216, qty=449.00000000, commission=0.10018983, time=1507144715249, isBuyer=true, isMaker=true, isBestMatch=true)]
+<pre>[BinanceTrade(id=1321, commissionAsset=BQX, price=0.00018602, qty=38.00000000, commission=0.03800000, time=1506499148055, isBuyer=true, isMaker=true, isBestMatch=true), ... , BinanceTrade(id=6315, commissionAsset=BNB, price=0.00015216, qty=449.00000000, commission=0.10018983, time=1507144715249, isBuyer=true, isMaker=true, isBestMatch=true)]</pre>
 </details>
 
 
@@ -153,29 +143,34 @@ System.out.println("BIDS=" + depth.get("bids").getAsJsonArray());
 System.out.println("ASKS=" + depth.get("asks").getAsJsonArray());
 ```
 <details><summary>View Output</summary>
+<pre>
 ```
 BIDS=[["0.05577600","2.30000000",[]],["0.05577500","1.10000000",[]],["0.05577400","2.10000000",[]],...,["0.00000100","21000.00000000",[]]]
 ASKS=[["0.05590600","10.90900000",[]],["0.05590700","9.96000000",[]],["0.05590800","9.44200000",[]],...,["0.06102400","0.50000000",[]]]
 ```
-</details>
+</pre></details>
 
-#### Getting latest prices - as list of JsonObject's
+#### Getting latest prices - as list of JsonObjects
 ```java
 System.out.println((new BinanceApi()).prices());
 ```
-<details><summary>View Output</summary>[{"symbol":"ETHBTC","price":"0.05602000"},{"symbol":"LTCBTC","price":"0.01107300"},{"symbol":"BNBBTC","price":"0.00023561"},...,{"symbol":"BNTBTC","price":"0.00038649"}]</details>
+<details><summary>View Output</summary>
+<pre>[{"symbol":"ETHBTC","price":"0.05602000"},{"symbol":"LTCBTC","price":"0.01107300"},{"symbol":"BNBBTC","price":"0.00023561"},...,{"symbol":"BNTBTC","price":"0.00038649"}]</pre>
+</details>
 
-#### Getting latest prices - as Map of decimals
+#### Getting latest prices - as map of decimals
 ```java
 System.out.println((new BinanceApi()).pricesMap());
 ```
-<details><summary>View Output</summary>{ZECETH=0E-8, SALTETH=0.00940300, WTCETH=0.02207900, NEOETH=0.09463500, ... , MTHETH=0.00028000, FUNETH=0.00007538}</details>
+<details><summary>View Output</summary>
+<pre>{ZECETH=0E-8, SALTETH=0.00940300, WTCETH=0.02207900, NEOETH=0.09463500, ... , MTHETH=0.00028000, FUNETH=0.00007538}</pre>
+</details>
 
 #### Getting latest price of a symbol
 ```java
 System.out.println((new BinanceApi()).pricesMap().get("ETHBTC"));
 ```
-<details><summary>View Output</summary>0.05628800</details>
+<details><summary>View Output</summary><pre>0.05628800</pre></details>
 
 #### Getting Aggregated Trades
 ```java
@@ -185,7 +180,7 @@ BinanceAggregatedTrades trade = binanceAggregatedTrades.get(0);
 System.out.println("TRADE=" + trade.toString() );
 ```
 <details><summary>View Output</summary>
-TRADE=BinanceAggregatedTrades{tradeId=2084592, price=0.05476100, quantity=6.87000000, firstTradeId=2192143, lastTradeId=2192143, timestamp=1508393572350, maker=true, bestPrice=true}
+<pre>TRADE=BinanceAggregatedTrades{tradeId=2084592, price=0.05476100, quantity=6.87000000, firstTradeId=2192143, lastTradeId=2192143, timestamp=1508393572350, maker=true, bestPrice=true}</pre>
 </details>
 
 #### Getting All Book Tickers
@@ -193,7 +188,7 @@ TRADE=BinanceAggregatedTrades{tradeId=2084592, price=0.05476100, quantity=6.8700
 System.out.println((new BinanceApi()).allBookTickers());
 ```
 <details><summary>View Output</summary>
-[{"symbol":"ETHBTC","bidPrice":"0.05461000","bidQty":"29.73000000","askPrice":"0.05486300","askQty":"19.96000000"}, ... ,{"symbol":"ASTETH","bidPrice":"0.00102010","bidQty":"4030.00000000","askPrice":"0.00102920","askQty":"187.00000000"}]
+<pre>[{"symbol":"ETHBTC","bidPrice":"0.05461000","bidQty":"29.73000000","askPrice":"0.05486300","askQty":"19.96000000"}, ... ,{"symbol":"ASTETH","bidPrice":"0.00102010","bidQty":"4030.00000000","askPrice":"0.00102920","askQty":"187.00000000"}]</pre>
 </details>
 
 #### Getting All Available Symbols
@@ -201,7 +196,7 @@ System.out.println((new BinanceApi()).allBookTickers());
 System.out.println((new BinanceApi()).allBookTickersMap().keySet());
 ```
 <details><summary>View Output</summary>
-[ZECETH, SALTETH, WTCETH, NEOETH, IOTABTC, CTRBTC, SNMBTC, LRCETH, ... , MTLETH, SALTBTC, SUBBTC, MTHETH, FUNETH]
+<pre>[ZECETH, SALTETH, WTCETH, NEOETH, IOTABTC, CTRBTC, SNMBTC, LRCETH, ... , MTLETH, SALTBTC, SUBBTC, MTHETH, FUNETH]</pre>
 </details>
 
 #### Getting 24hr Tickers for Symbol
@@ -210,7 +205,7 @@ BinanceSymbol symbol = BinanceSymbol.valueOf("ETHBTC");
 System.out.println((new BinanceApi()).ticker24hr(symbol));
 ```
 <details><summary>View Output</summary>
-{"priceChange":"-0.00180600","priceChangePercent":"-3.195","weightedAvgPrice":"0.05619267","prevClosePrice":"0.05652600","lastPrice":"0.05472000","lastQty":"0.26100000","bidPrice":"0.05472000","bidQty":"26.53900000","askPrice":"0.05486100","askQty":"0.53100000","openPrice":"0.05652600","highPrice":"0.05734100","lowPrice":"0.05460000","volume":"28260.45000000","quoteVolume":"1588.03005689","openTime":1508308200417,"closeTime":1508394600417,"firstId":2167326,"lastId":2192389,"count":25063}
+<pre>{"priceChange":"-0.00180600","priceChangePercent":"-3.195","weightedAvgPrice":"0.05619267","prevClosePrice":"0.05652600","lastPrice":"0.05472000","lastQty":"0.26100000","bidPrice":"0.05472000","bidQty":"26.53900000","askPrice":"0.05486100","askQty":"0.53100000","openPrice":"0.05652600","highPrice":"0.05734100","lowPrice":"0.05460000","volume":"28260.45000000","quoteVolume":"1588.03005689","openTime":1508308200417,"closeTime":1508394600417,"firstId":2167326,"lastId":2192389,"count":25063}</pre>
 </details>
 
 #### Getting Klines / Candlesticks
@@ -221,7 +216,7 @@ BinanceCandlestick binanceCandlestick = klines.get(0);
 System.out.println("KLINE=" + binanceCandlestick.toString() );
 ```
 <details><summary>View Output</summary>
-KLINE=BinanceCandlestick(openTime=1508378400000, open=0.05598000, high=0.05622000, low=0.05569100, close=0.05570500, volume=1514.33900000, closeTime=1508381999999, quoteAssetVolume=84.65979632, numberOfTrades=1683, takerBuyBaseAssetVolume=716.56500000, takerBuyQuoteAssetVolume=40.07877823)
+<pre>KLINE=BinanceCandlestick(openTime=1508378400000, open=0.05598000, high=0.05622000, low=0.05569100, close=0.05570500, volume=1514.33900000, closeTime=1508381999999, quoteAssetVolume=84.65979632, numberOfTrades=1683, takerBuyBaseAssetVolume=716.56500000, takerBuyQuoteAssetVolume=40.07877823)</pre>
 </details>
 
 ## Placing Orders
@@ -230,6 +225,7 @@ KLINE=BinanceCandlestick(openTime=1508378400000, open=0.05598000, high=0.0562200
 ```java
 ```
 <details><summary>View Output</summary>
+<pre></pre>
 </details>
 
 
@@ -237,6 +233,7 @@ KLINE=BinanceCandlestick(openTime=1508378400000, open=0.05598000, high=0.0562200
 ```java
 ```
 <details><summary>View Output</summary>
+<pre></pre>
 </details>
 
 
@@ -244,12 +241,14 @@ KLINE=BinanceCandlestick(openTime=1508378400000, open=0.05598000, high=0.0562200
 ```java
 ```
 <details><summary>View Output</summary>
+<pre></pre>
 </details>
 
 #### Placing an ICEBERG order
 ```java
 ```
 <details><summary>View Output</summary>
+<pre></pre>
 </details>
 
 
@@ -257,6 +256,7 @@ KLINE=BinanceCandlestick(openTime=1508378400000, open=0.05598000, high=0.0562200
 ```java
 ```
 <details><summary>View Output</summary>
+<pre></pre>
 </details>
 
 ## Using User Data Streams
@@ -265,24 +265,28 @@ KLINE=BinanceCandlestick(openTime=1508378400000, open=0.05598000, high=0.0562200
 ```java
 ```
 <details><summary>View Output</summary>
+<pre></pre>
 </details>
 
 #### Keep User Data Stream Alive
 ```java
 ```
 <details><summary>View Output</summary>
+<pre></pre>
 </details>
 
 #### Close User Data Stream
 ```java
 ```
 <details><summary>View Output</summary>
+<pre></pre>
 </details>
 
 #### User Data Web Socket Watcher
 ```java
 ```
 <details><summary>View Output</summary>
+<pre></pre>
 </details>
 
 
@@ -292,18 +296,21 @@ KLINE=BinanceCandlestick(openTime=1508378400000, open=0.05598000, high=0.0562200
 ```java
 ```
 <details><summary>View Output</summary>
+<pre></pre>
 </details>
 
 #### Kline Web Socket Watcher
 ```java
 ```
 <details><summary>View Output</summary>
+<pre></pre>
 </details>
 
 #### Trades Web Socket Watcher
 ```java
 ```
 <details><summary>View Output</summary>
+<pre></pre>
 </details>
 
 
