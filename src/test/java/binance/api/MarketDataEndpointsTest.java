@@ -67,11 +67,8 @@ public class MarketDataEndpointsTest {
     @Test
     public void testIntervalsAreConvertedToStrings() throws Exception {
         assertTrue("15min check", BinanceInterval.FIFTEEN_MIN.toString().equals("15m"));
-        assertTrue("15min check, M1", BinanceInterval.M15.toString().equals("15m"));
         assertTrue("1 hour check", BinanceInterval.ONE_HOUR.toString().equals("1h"));
-        assertTrue("1 hour check, H1", BinanceInterval.H1.toString().equals("1h"));
         assertTrue("1 month check", BinanceInterval.ONE_MONTH.toString().equals("1M"));
-        assertTrue("1 month check, MONTH", BinanceInterval.MONTH.toString().equals("1M"));
     }
 
     @Test

@@ -33,7 +33,7 @@ public class DepthStreamTest {
                 log.info(message.toString());
             }
         });
-        Thread.sleep(5000);
+        Thread.sleep(3000);
         session.close();
     }
 }

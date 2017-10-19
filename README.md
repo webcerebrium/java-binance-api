@@ -315,7 +315,6 @@ String listenKey = "pqia91ma19a5s61cv6a81va65sdf19v8a65a1a5s61cv6a81va65sdf19v8a
 
 
 
-
 ## Connecting to Web Sockets
 
 #### Depth Web Socket Listener
@@ -338,21 +337,23 @@ BinanceEventDepthUpdate(eventTime=1508411907630, symbol=ETHBTC, updateId=1737954
 </pre>
 </details>
 
-#### Kline Web Socket Listener
+#### Klines Web Socket Listener
 ```java
 BinanceSymbol symbol = new BinanceSymbol("ETHBTC");
-BinanceInterval interval = BinanceInterval.ONE_MINUTE;
+BinanceInterval interval = BinanceInterval.FIVE_MIN;
 Session session = (new BinanceApi()).websocketKlines(symbol, interval, new BinanceWebSocketAdapterKline() {
     @Override
     public void onMessage(BinanceEventKline message) {
         System.out.println(message.toString());
     }
 });
-try { Thread.sleep(5000); } catch (InterruptedException e) {}
+try { Thread.sleep(15000); } catch (InterruptedException e) {}
 session.close();
 ```
 <details><summary>View Output</summary>
-<pre></pre>
+<pre>
+BinanceEventKline(eventTime=1508416507504, symbol=ETHBTC, interval=1m, startTime=1508416500000, endTime=1508416559999, firstTradeId=-1, lastTradeId=-1, open=0.05393800, close=0.05393800, high=0.05393800, low=0.05393800, volume=0E-8, numberOfTrades=0, isFinal=false, quoteVolume=0E-8, volumeOfActiveBuy=0E-8, quoteVolumeOfActiveBuy=0E-8)
+</pre>
 </details>
 
 #### Trades Web Socket Listener
@@ -392,10 +393,6 @@ Thread.sleep(5000);
 session.close();
 
 ```
-<details><summary>View Output</summary>
-<pre></pre>
-</details>
-
 
 # License
 MIT. Anyone can copy, change, derive further work from this repository without any restrictions.

@@ -33,7 +33,7 @@ public class AggTradesStreamTest {
                 log.info(message.toString());
             }
         });
-        Thread.sleep(15000);
+        Thread.sleep(5000);
         session.close();
     }
 }

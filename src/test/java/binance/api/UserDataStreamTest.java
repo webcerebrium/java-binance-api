@@ -37,9 +37,9 @@ public class UserDataStreamTest {
                 log.info(event.toString());
             }
         });
-        Thread.sleep(3000);
+        Thread.sleep(2000);
         log.info("KEEPING ALIVE=" + binanceApi.keepUserDataStream(listenKey));
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         session.close();
         log.info("DELETED=" + binanceApi.deleteUserDataStream(listenKey));
     }
