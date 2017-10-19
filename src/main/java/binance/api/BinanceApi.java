@@ -70,14 +70,17 @@ public class BinanceApi {
 
     /**
      * Checking connectivity,
+     *
      * @return empty object
      */
     public JsonObject ping() throws BinanceApiException {
         return (new BinanceRequest(baseUrl + "v1/ping"))
                 .read().asJsonObject();
     }
+
     /**
      * Checking server time,
+     *
      * @return JsonObject, expected { serverTime: 00000 }
      */
     public JsonObject time() throws BinanceApiException {
@@ -96,6 +99,7 @@ public class BinanceApi {
         return (new BinanceRequest(baseUrl + "v1/depth?symbol=" + symbol.get()))
                 .read().asJsonObject();
     }
+
     /**
      * 24hr ticker price change statistics, with limit explicitly set
      */
@@ -124,7 +128,8 @@ public class BinanceApi {
             }
         }
         String lastResponse = (new BinanceRequest(u)).read().getLastResponse();
-        Type listType = new TypeToken<List<BinanceAggregatedTrades>>() {}.getType();
+        Type listType = new TypeToken<List<BinanceAggregatedTrades>>() {
+        }.getType();
         return new Gson().fromJson(lastResponse, listType);
     }
 
@@ -146,7 +151,7 @@ public class BinanceApi {
      * Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time.
      * If startTime and endTime are not sent, the most recent klines are returned.
      */
-    public List<BinanceCandlestick> klines( BinanceSymbol symbol, BinanceInterval interval, int limit, Map<String, Long> options) throws BinanceApiException {
+    public List<BinanceCandlestick> klines(BinanceSymbol symbol, BinanceInterval interval, int limit, Map<String, Long> options) throws BinanceApiException {
         String u = baseUrl + "v1/klines?symbol=" + symbol.get() + "&interval=" + interval.toString() + "&limit=" + limit;
         if (options != null) {
             for (String optionKey : options.keySet()) {
@@ -158,7 +163,7 @@ public class BinanceApi {
         }
         JsonArray jsonElements = (new BinanceRequest(u)).read().asJsonArray();
         List<BinanceCandlestick> list = new LinkedList<>();
-        for(JsonElement e: jsonElements) list.add(new BinanceCandlestick(e.getAsJsonArray()));
+        for (JsonElement e : jsonElements) list.add(new BinanceCandlestick(e.getAsJsonArray()));
         return list;
     }
 
@@ -171,6 +176,7 @@ public class BinanceApi {
 
     /**
      * 24hr ticker price change statistics
+     *
      * @return JsonObject
      */
     public JsonObject ticker24hr(BinanceSymbol symbol) throws BinanceApiException {
@@ -180,6 +186,7 @@ public class BinanceApi {
 
     /**
      * Latest price for all symbols
+     *
      * @return raw JSON Array
      */
     public JsonArray allPrices() throws BinanceApiException {
@@ -189,6 +196,7 @@ public class BinanceApi {
 
     /**
      * Latest price for all symbols -
+     *
      * @return Map of big decimals
      */
     public Map<String, BigDecimal> pricesMap() throws BinanceApiException {
@@ -202,6 +210,7 @@ public class BinanceApi {
 
     /**
      * Get best price/qty on the order book for all symbols.
+     *
      * @return JsonArray
      */
     public JsonArray allBookTickers() throws BinanceApiException {
@@ -211,15 +220,18 @@ public class BinanceApi {
 
     /**
      * Get best price/qty on the order book for all symbols.
+     *
      * @return map of BinanceTicker
+     * @throws BinanceApiException
      */
     public Map<String, BinanceTicker> allBookTickersMap() throws BinanceApiException {
         String lastResponse = (new BinanceRequest(baseUrl + "v1/ticker/allBookTickers")).read().getLastResponse();
-        Type listType = new TypeToken<List<BinanceTicker>>() {}.getType();
+        Type listType = new TypeToken<List<BinanceTicker>>() {
+        }.getType();
 
         Map<String, BinanceTicker> mapTickers = new HashMap<>();
         List<BinanceTicker> ticker = new Gson().fromJson(lastResponse, listType);
-        for( BinanceTicker t: ticker) mapTickers.put(t.getSymbol(), t);
+        for (BinanceTicker t : ticker) mapTickers.put(t.getSymbol(), t);
         return mapTickers;
     }
 
@@ -230,6 +242,7 @@ public class BinanceApi {
     /**
      * Getting account information
      * @return JsonObject
+     * @throws BinanceApiException
      */
     public JsonObject account() throws BinanceApiException {
         return (new BinanceRequest(baseUrl + "v3/account"))
@@ -239,6 +252,7 @@ public class BinanceApi {
     /**
      * Getting balances - part of account information
      * @return JsonArray
+     * @throws BinanceApiException
      */
     public JsonArray balances() throws BinanceApiException {
         return account().get("balances").getAsJsonArray();
@@ -247,10 +261,11 @@ public class BinanceApi {
     /**
      * Getting balances - part of account information
      * @return map of wallet assets structure
+     * @throws BinanceApiException
      */
     public Map<String, BinanceWalletAsset> balancesMap() throws BinanceApiException {
         Map<String, BinanceWalletAsset> mapAssets = new HashMap<>();
-        for (JsonElement el: balances()) {
+        for (JsonElement el : balances()) {
             BinanceWalletAsset w = new BinanceWalletAsset(el.getAsJsonObject());
             mapAssets.put(w.getAsset(), w);
         }
@@ -259,18 +274,26 @@ public class BinanceApi {
 
     /**
      * Get all open orders on a symbol.
+     * @param symbol
+     * @return
+     * @throws BinanceApiException
      */
     public List<BinanceOrder> openOrders(BinanceSymbol symbol) throws BinanceApiException {
         String u = baseUrl + "v3/openOrders?symbol=" + symbol.toString();
         String lastResponse = (new BinanceRequest(u)).sign(apiKey, secretKey, null).read().getLastResponse();
-        Type listType = new TypeToken<List<BinanceOrder>>() {}.getType();
+        Type listType = new TypeToken<List<BinanceOrder>>() {
+        }.getType();
         return new Gson().fromJson(lastResponse, listType);
     }
-
     /**
      * Get all orders on a symbol; active, canceled, or filled.
      * If orderId is set (not null and > 0), it will get orders >= that orderId.
      * Otherwise most recent orders are returned.
+     * @param symbol
+     * @param orderId
+     * @param limit
+     * @return
+     * @throws BinanceApiException
      */
     public List<BinanceOrder> allOrders(BinanceSymbol symbol, Long orderId, int limit) throws BinanceApiException {
         String u = baseUrl + "v3/allOrders?symbol=" + symbol.toString() + "&limit=" + limit;
@@ -280,15 +303,23 @@ public class BinanceApi {
         Type listType = new TypeToken<List<BinanceOrder>>() {}.getType();
         return new Gson().fromJson(lastResponse, listType);
     }
-    /**
-     * short version of allOrders
-     */
-    public List<BinanceOrder> allOrders(BinanceSymbol symbol) throws  BinanceApiException {
-        return allOrders(symbol, 0L, 500);
-    }
 
     /**
+     * short version of allOrders
+     * @param symbol
+     * @return list of orders
+     * @throws BinanceApiException
+     */
+    public List<BinanceOrder> allOrders(BinanceSymbol symbol) throws BinanceApiException {
+        return allOrders(symbol, 0L, 500);
+    }
+    /**
      * Get trades for a specific account and symbol.
+     * @param symbol
+     * @param orderId
+     * @param limit
+     * @return list of trades
+     * @throws BinanceApiException
      */
     public List<BinanceTrade> myTrades(BinanceSymbol symbol, Long orderId, int limit) throws BinanceApiException {
         String u = baseUrl + "v3/myTrades?symbol=" + symbol.toString() + "&limit=" + limit;
@@ -300,22 +331,72 @@ public class BinanceApi {
 
     /**
      * short version of myTrades(symbol, orderId, limit)
+     * @param symbol
+     * @throws BinanceApiException
      */
     public List<BinanceTrade> myTrades(BinanceSymbol symbol) throws BinanceApiException {
         return myTrades(symbol, 0L, 500);
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - -
+    /**
+     * Get Order Status
+     * @param symbol
+     * @param orderId
+     * @return BinanceOrder object if successfull
+     * @throws BinanceApiException
+     */
+    public BinanceOrder getOrderById(BinanceSymbol symbol, Long orderId ) throws BinanceApiException {
+        String u = baseUrl + "v3/order?symbol=" + symbol.toString() + "&orderId=" + orderId;
+        String lastResponse = (new BinanceRequest(u)).sign(apiKey, secretKey, null).read().getLastResponse();
+        return (new Gson()).fromJson(lastResponse, BinanceOrder.class);
+    }
+
+    /**
+     * @param symbol
+     * @param origClientOrderId
+     * @return BinanceOrder object if successfull
+     * @throws BinanceApiException
+     */
+    public BinanceOrder getOrderByOrigClientId(BinanceSymbol symbol, String origClientOrderId)  throws BinanceApiException {
+        String u = baseUrl + "v3/order?symbol=" + symbol.toString() + "&origClientOrderId=" + origClientOrderId;
+        String lastResponse = (new BinanceRequest(u)).sign(apiKey, secretKey, null).read().getLastResponse();
+        return (new Gson()).fromJson(lastResponse, BinanceOrder.class);
+    }
+
+    /**
+     * Getting order from order object. A wrapper for getOrderById(symbol, orderId)
+     * @param order
+     * @return
+     * @throws BinanceApiException
+     */
+    public BinanceOrder getOrder(BinanceOrder order)  throws BinanceApiException {
+        return getOrderById(BinanceSymbol.valueOf(order.getSymbol()), order.getOrderId() );
+    }
+
+
+        // - - - - - - - - - - - - - - - - - - - - - - - -
     // TRADING ENDPOINTS
     // - - - - - - - - - - - - - - - - - - - - - - - -
-
     // testOrder
     // newOrder
     // BinanceOrder getOrder
     // deleteOrder
 
     // - - - - - - - - - - - - - - - - - - - - - - - -
+    // USER DATA STREAM
+    // - - - - - - - - - - - - - - - - - - - - - - - -
+    // startStream
+    // keepStream
+    // deleteStream
+
+    // - - - - - - - - - - - - - - - - - - - - - - - -
     // WEBCOCKET ENDPOINTS
     // - - - - - - - - - - - - - - - - - - - - - - - -
+    // Depth Websocket Endpoint
+    // Kline Websocket Endpoint
+    // Trades Websocket Endpoint
+    // User Data Websocket Endpoint
 
 }
+
+

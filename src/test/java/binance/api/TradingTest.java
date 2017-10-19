@@ -31,7 +31,7 @@ public class TradingTest {
     @After
     public void tearDown() throws Exception {
         if (order != null) {
-            // binanceApi.cancelOrder(BinanceOrder);
+            // binanceApi.cancelOrder(order);
         }
     }
 

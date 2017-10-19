@@ -47,6 +47,4 @@ dependencies {
 
     // WEBSOCKETS
     compile 'javax.websocket:javax.websocket-api:1.1'
-    compile 'org.codehaus.jettison:jettison:1.3.7'
-
 }
