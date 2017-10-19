@@ -72,6 +72,14 @@ public class BinanceRequest {
         return Hex.encodeHexString(sha256_HMAC.doFinal(data.getBytes("UTF-8")));
     }
 
+    /**
+     * Requests signing - with public and secret key
+     * @param apiKey
+     * @param secretKey
+     * @param options
+     * @return
+     * @throws BinanceApiException
+     */
     public BinanceRequest sign(String apiKey, String secretKey, Map<String, String> options) throws BinanceApiException {
         if (!Strings.isNullOrEmpty(secretKey) && !requestUrl.contains("&signature=")) {
             List<String> list = new LinkedList<>();
@@ -84,13 +92,13 @@ public class BinanceRequest {
             list.add("timestamp=" + String.valueOf(new Date().getTime()));
             String queryToAdd = String.join("&", list);
             String query = "";
-            log.debug("RequestUrl = {}", requestUrl);
+            log.debug("Signature: RequestUrl = {}", requestUrl);
             if (requestUrl.contains("?")) {
                 query = requestUrl.substring(requestUrl.indexOf('?') + 1) + "&";
             }
             query = query.concat(queryToAdd);
 
-            log.debug("Query to be included in signature = {} queryToAdd={}", query, queryToAdd);
+            log.debug("Signature: query to be included  = {} queryToAdd={}", query, queryToAdd);
             try {
                 String signature = encode(secretKey, query); // set the HMAC hash header
                 String concatenator = requestUrl.contains("?") ? "&" : "?";
@@ -99,6 +107,18 @@ public class BinanceRequest {
                 throw new BinanceApiException("Encryption error " + e.getMessage());
             }
         }
+        headers.put("X-MBX-APIKEY", apiKey);
+        headers.put("Content-Type", "application/x-www-form-urlencoded");
+        return this;
+    }
+
+    /**
+     * Requests signing - just with a public key
+     * @param apiKey
+     * @return
+     * @throws BinanceApiException
+     */
+    public BinanceRequest sign(String apiKey) throws BinanceApiException {
         headers.put("X-MBX-APIKEY", apiKey);
         headers.put("Content-Type", "application/x-www-form-urlencoded");
         return this;

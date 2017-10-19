@@ -20,11 +20,7 @@ and they will be accepted in higher priority comparing to resource file.
 #### Running tests
 
 Tests with API coverage could be launched with `gradle test`. Before running, make sure API keys are set as described above.
-For successful tests passing, it is desired to have some BTC, ETH and BNB available.
-
-#### Running from command line
-
-Compile the project with `gradle distZip`. Under `build\distributions\java-binance-api-X.X.X\bin` you will have have batch file with command line client.
+For successful trading tests passing, it is desired to have some BTC, ETH and BNB on your account.
 
 #### Running in Eclipse
 This project uses Lombok. You will need to [install lombok per guidelines](https://projectlombok.org/download.html) to make the project compile in Eclipse. It will compile via gradle just fine without this additional installation step.
@@ -237,9 +233,6 @@ placement.setQuantity(BigDecimal.valueOf(10000)); // buy 10000 of asset for 0.00
 BinanceOrder order = api.getOrder(symbol, api.createOrder(placement).get("orderId").getAsLong());
 System.out.println(order.toString());
 ```
-<details><summary>View Output</summary>
-<pre></pre>
-</details>
 
 
 #### Placing a MARKET order
@@ -253,9 +246,6 @@ placement.setQuantity(BigDecimal.valueOf(10000)); // buy 10000 of asset for 0.00
 BinanceOrder order = api.getOrder(symbol, api.createOrder(placement).get("orderId").getAsLong());
 System.out.println(order.toString());
 ```
-<details><summary>View Output</summary>
-<pre></pre>
-</details>
 
 #### Placing a STOP LOSS order
 ```java
@@ -268,9 +258,6 @@ placement.setQuantity(BigDecimal.valueOf(1)); // sell 1 piece of asset
 BinanceOrder order = api.getOrder(symbol, api.createOrder(placement).get("orderId").getAsLong());
 System.out.println(order.toString());
 ```
-<details><summary>View Output</summary>
-<pre></pre>
-</details>
 
 #### Placing an ICEBERG order
 ```java
@@ -283,9 +270,6 @@ placement.setIcebergQty(BigDecimal.valueOf(10));
 BinanceOrder order = api.getOrder(symbol, api.createOrder(placement).get("orderId").getAsLong());
 System.out.println(order.toString());
 ```
-<details><summary>View Output</summary>
-<pre></pre>
-</details>
 
 #### Cancel an order
 ```java
@@ -329,9 +313,12 @@ String listenKey = "pqia91ma19a5s61cv6a81va65sdf19v8a65a1a5s61cv6a81va65sdf19v8a
 </details>
 
 
+
+
+
 ## Connecting to Web Sockets
 
-#### User Data Web Socket Watcher
+#### User Data Web Socket Listener
 ```java
 ```
 <details><summary>View Output</summary>
@@ -339,21 +326,21 @@ String listenKey = "pqia91ma19a5s61cv6a81va65sdf19v8a65a1a5s61cv6a81va65sdf19v8a
 </details>
 
 
-#### Depth Web Socket Watcher
+#### Depth Web Socket Listener
 ```java
 ```
 <details><summary>View Output</summary>
 <pre></pre>
 </details>
 
-#### Kline Web Socket Watcher
+#### Kline Web Socket Listener
 ```java
 ```
 <details><summary>View Output</summary>
 <pre></pre>
 </details>
 
-#### Trades Web Socket Watcher
+#### Trades Web Socket Listener
 ```java
 ```
 <details><summary>View Output</summary>

@@ -502,7 +502,7 @@ public class BinanceApi {
      */
     public String startUserDataStream() throws BinanceApiException {
         JsonObject jsonObject = (new BinanceRequest(baseUrl + "v1/userDataStream"))
-                .sign(apiKey, secretKey, null).post().read().asJsonObject();
+                .sign(apiKey).post().read().asJsonObject();
         return jsonObject.get("listenKey").getAsString();
     }
 
@@ -514,7 +514,7 @@ public class BinanceApi {
      */
     public JsonObject keepUserDataStream(String listenKey) throws BinanceApiException {
         return (new BinanceRequest(baseUrl + "v1/userDataStream?listenKey=" + listenKey))
-                .sign(apiKey, secretKey, null).put().read().asJsonObject();
+                .sign(apiKey).put().read().asJsonObject();
     }
 
     /**
@@ -525,7 +525,7 @@ public class BinanceApi {
      */
     public JsonObject deleteUserDataStream(String listenKey) throws BinanceApiException {
         return (new BinanceRequest(baseUrl + "v1/userDataStream?listenKey=" + listenKey))
-                .sign(apiKey, secretKey, null).delete().read().asJsonObject();
+                .sign(apiKey).delete().read().asJsonObject();
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - -

@@ -15,6 +15,12 @@ public class UserDataStreamTest {
     }
 
     @Test
-    public void testUserDataStreamIsCreatedAndClosed() throws Exception {
+    public void testUserDataStreamIsCreatedAndClosed() throws Exception, BinanceApiException {
+        String listenKey = binanceApi.startUserDataStream();
+        log.info("LISTEN KEY=" + listenKey);
+        try { Thread.sleep(50); } catch (InterruptedException ie) {}
+        log.info("KEEPING ALIVE=" + binanceApi.keepUserDataStream(listenKey));
+        log.info("DELETED=" + binanceApi.deleteUserDataStream(listenKey));
     }
 }
+
