@@ -318,23 +318,38 @@ String listenKey = "pqia91ma19a5s61cv6a81va65sdf19v8a65a1a5s61cv6a81va65sdf19v8a
 
 ## Connecting to Web Sockets
 
-#### User Data Web Socket Listener
-```java
-```
-<details><summary>View Output</summary>
-<pre></pre>
-</details>
-
-
 #### Depth Web Socket Listener
 ```java
+BinanceSymbol symbol = new BinanceSymbol("ETHBTC");
+Session session = (new BinanceApi()).websocketDepth(symbol, new BinanceWebSocketAdapterDepth() {
+    @Override
+    public void onMessage(BinanceEventDepthUpdate message) {
+        System.out.println(message.toString());
+    }
+});
+try { Thread.sleep(5000); } catch (InterruptedException e) {}
+session.close();
 ```
 <details><summary>View Output</summary>
-<pre></pre>
+<pre>
+BinanceEventDepthUpdate(eventTime=1508411905630, symbol=ETHBTC, updateId=17379538, bids=[BinanceBidOrAsk(type=BID, price=0.05356100, quantity=0E-8), BinanceBidOrAsk(type=BID, price=0.05355800, quantity=0E-8)], asks=[BinanceBidOrAsk(type=ASK, price=0.05386000, quantity=0.62900000), BinanceBidOrAsk(type=ASK, price=0.05401300, quantity=0E-8), BinanceBidOrAsk(type=ASK, price=0.05401600, quantity=1.50000000)])
+BinanceEventDepthUpdate(eventTime=1508411906630, symbol=ETHBTC, updateId=17379544, bids=[BinanceBidOrAsk(type=BID, price=0.05356200, quantity=0E-8), BinanceBidOrAsk(type=BID, price=0.05354900, quantity=15.00000000), BinanceBidOrAsk(type=BID, price=0.05069700, quantity=0E-8), BinanceBidOrAsk(type=BID, price=0.05066500, quantity=15.60000000)], asks=[BinanceBidOrAsk(type=ASK, price=0.05400600, quantity=1.50000000), BinanceBidOrAsk(type=ASK, price=0.05401600, quantity=0E-8)])
+BinanceEventDepthUpdate(eventTime=1508411907630, symbol=ETHBTC, updateId=17379545, bids=[BinanceBidOrAsk(type=BID, price=0.05356500, quantity=10.00000000)], asks=[])
+</pre>
 </details>
 
 #### Kline Web Socket Listener
 ```java
+BinanceSymbol symbol = new BinanceSymbol("ETHBTC");
+BinanceInterval interval = BinanceInterval.ONE_MINUTE;
+Session session = (new BinanceApi()).websocketKlines(symbol, interval, new BinanceWebSocketAdapterKline() {
+    @Override
+    public void onMessage(BinanceEventKline message) {
+        System.out.println(message.toString());
+    }
+});
+try { Thread.sleep(5000); } catch (InterruptedException e) {}
+session.close();
 ```
 <details><summary>View Output</summary>
 <pre></pre>
@@ -342,6 +357,40 @@ String listenKey = "pqia91ma19a5s61cv6a81va65sdf19v8a65a1a5s61cv6a81va65sdf19v8a
 
 #### Trades Web Socket Listener
 ```java
+BinanceSymbol symbol = new BinanceSymbol("ETHBTC");
+Session session = (new BinanceApi()).websocketTrades(symbol, new BinanceWebSocketAdapterAggTrades() {
+    @Override
+    public void onMessage(BinanceEventAggTrade message) {
+        System.out.println(message.toString());
+    }
+});
+try { Thread.sleep(8000); } catch (InterruptedException e) {}
+session.close();
+```
+<details><summary>View Output</summary>
+<pre>
+BinanceEventAggTrade(eventTime=1508412260766, symbol=ETHBTC, aggregatedTradeId=2089883, price=0.05369800, quantity=3.68000000, firstBreakdownTradeId=2197559, lastBreakdownTradeId=2197559, tradeTime=1508412260762, isMaker=false)
+BinanceEventAggTrade(eventTime=1508412260835, symbol=ETHBTC, aggregatedTradeId=2089884, price=0.05369800, quantity=1.00000000, firstBreakdownTradeId=2197560, lastBreakdownTradeId=2197560, tradeTime=1508412260832, isMaker=false)
+</pre>
+</details>
+
+
+#### User Data Web Socket Listener
+```java
+BinanceSymbol symbol = new BinanceSymbol("ETHBTC");
+Session session = (new BinanceApi()).websocketDepth(symbol, new BinanceWebSocketAdapterUserData() {
+    @Override
+    public void onOutboundAccountInfo(BinanceEventOutboundAccountInfo message) {
+        System.out.println(message.toString());
+    }
+    @Override
+    public void onExecutionReport(BinanceEventExecutionReport message) {
+        System.out.println(message.toString());
+    }
+});
+Thread.sleep(5000);
+session.close();
+
 ```
 <details><summary>View Output</summary>
 <pre></pre>

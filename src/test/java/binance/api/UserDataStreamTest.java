@@ -1,6 +1,15 @@
 package binance.api;
 
+/* ============================================================
+ * java-binance-api
+ * https://github.com/webcerebrium/java-binance-api
+ * ============================================================
+ * Copyright 2017-, Viktor Lopata, Web Cerebrium OÜ
+ * Released under the MIT License
+ * ============================================================ */
+
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.jetty.websocket.api.Session;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,8 +27,20 @@ public class UserDataStreamTest {
     public void testUserDataStreamIsCreatedAndClosed() throws Exception, BinanceApiException {
         String listenKey = binanceApi.startUserDataStream();
         log.info("LISTEN KEY=" + listenKey);
-        try { Thread.sleep(50); } catch (InterruptedException ie) {}
+        Session session = binanceApi.websocket(listenKey, new BinanceWebSocketAdapterUserData() {
+            @Override
+            public void onOutboundAccountInfo(BinanceEventOutboundAccountInfo event) throws BinanceApiException {
+                log.info(event.toString());
+            }
+            @Override
+            public void onExecutionReport(BinanceEventExecutionReport event) throws BinanceApiException {
+                log.info(event.toString());
+            }
+        });
+        Thread.sleep(3000);
         log.info("KEEPING ALIVE=" + binanceApi.keepUserDataStream(listenKey));
+        Thread.sleep(5000);
+        session.close();
         log.info("DELETED=" + binanceApi.deleteUserDataStream(listenKey));
     }
 }

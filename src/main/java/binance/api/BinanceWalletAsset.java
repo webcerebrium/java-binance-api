@@ -18,8 +18,20 @@ public class BinanceWalletAsset {
     }
 
     public BinanceWalletAsset(JsonObject obj) {
-        this.asset = obj.get("asset").getAsString();
-        this.free = obj.get("free").getAsBigDecimal();
-        this.locked = obj.get("locked").getAsBigDecimal();
+        if (obj.has("a")) {
+            this.asset = obj.get("a").getAsString();
+        } else {
+            this.asset = obj.get("asset").getAsString();
+        }
+        if (obj.has("f")) {
+            this.free = obj.get("f").getAsBigDecimal();
+        } else {
+            this.free = obj.get("free").getAsBigDecimal();
+        }
+        if (obj.has("l")) {
+            this.locked = obj.get("l").getAsBigDecimal();
+        } else {
+            this.locked = obj.get("locked").getAsBigDecimal();
+        }
     }
 }

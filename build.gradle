@@ -45,6 +45,6 @@ dependencies {
     // Lombok, Improving logging
     compile group: 'org.projectlombok', name: 'lombok', version: '1.16.4'
 
-    // WEBSOCKETS
-    compile 'javax.websocket:javax.websocket-api:1.1'
+    // JETTY WEBSOCKET CLIENT
+    compile group: 'org.eclipse.jetty.websocket', name: 'websocket-client', version: '9.4.7.v20170914'
 }

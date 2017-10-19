@@ -16,9 +16,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
+import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.WebSocketAdapter;
+import org.eclipse.jetty.websocket.client.WebSocketClient;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -529,12 +535,76 @@ public class BinanceApi {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - -
-    // WEBCOCKET ENDPOINTS
+    // WEBSOCKET ENDPOINTS
     // - - - - - - - - - - - - - - - - - - - - - - - -
-    // Depth Websocket Endpoint
-    // Kline Websocket Endpoint
-    // Trades Websocket Endpoint
-    // User Data Websocket Endpoint
+
+    /**
+     * Base method for all websockets streams
+     * @param url
+     * @param adapter
+     * @return
+     * @throws BinanceApiException
+     */
+    public Session getWebsocketSession(String url, WebSocketAdapter adapter) throws BinanceApiException {
+        try {
+            URI uri = new URI(websocketBaseUrl + url);
+            SslContextFactory sslContextFactory = new SslContextFactory();
+            sslContextFactory.setTrustAll(true); // The magic
+            WebSocketClient client = new WebSocketClient(sslContextFactory);
+            client.start();
+            return client.connect(adapter, uri).get();
+        } catch (URISyntaxException e) {
+            throw new BinanceApiException("URL Syntax error: " + e.getMessage());
+        } catch (Throwable e) {
+            throw new BinanceApiException("Websocket error: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Depth Websocket Stream Listener
+     * @param symbol
+     * @param adapter
+     * @return
+     * @throws BinanceApiException
+     */
+    public Session websocketDepth(BinanceSymbol symbol, BinanceWebSocketAdapterDepth adapter) throws BinanceApiException {
+        return getWebsocketSession(symbol.toString().toLowerCase() + "@depth", adapter);
+    }
+
+    /**
+     * Klines Websocket Stream Listener
+     * @param symbol
+     * @param interval
+     * @param adapter
+     * @return
+     * @throws BinanceApiException
+     */
+    public Session websocketKlines(BinanceSymbol symbol, BinanceInterval interval, BinanceWebSocketAdapterKline adapter) throws BinanceApiException {
+        return getWebsocketSession(symbol.toString().toLowerCase() + "@kline_" + interval.toString(), adapter);
+    }
+
+    /**
+     * Trades Websocket Stream Listener
+     * @param symbol
+     * @param adapter
+     * @return
+     * @throws BinanceApiException
+     */
+    public Session websocketTrades(BinanceSymbol symbol, BinanceWebSocketAdapterAggTrades adapter) throws BinanceApiException {
+        return getWebsocketSession(symbol.toString().toLowerCase() + "@aggTrade", adapter);
+    }
+
+    /**
+     * User Data Websocket Stream Listener
+     * @param listenKey
+     * @param adapter
+     * @return
+     * @throws BinanceApiException
+     */
+    public Session websocket(String listenKey, BinanceWebSocketAdapterUserData adapter) throws BinanceApiException {
+        return getWebsocketSession(listenKey, adapter);
+    }
+
 }
 
 

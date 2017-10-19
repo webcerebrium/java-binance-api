@@ -6,7 +6,10 @@
     </appender>
 
     <logger name="root" level="DEBUG" />
-    <logger name="binance.api.BinanceRequest" level="INFO" />
+    <logger name="org.eclipse.jetty" level="WARN" />
+    <logger name="binance.api" level="DEBUG" />
+    <logger name="binance.api.BinanceRequest" level="DEBUG" />
+
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />

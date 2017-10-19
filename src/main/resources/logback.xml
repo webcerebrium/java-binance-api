@@ -6,6 +6,8 @@
     </appender>
 
     <logger name="root" level="DEBUG" />
+    <logger name="org.eclipse.jetty" level="WARN" />
+    <logger name="binance.api" level="INFO" />
     <logger name="binance.api.BinanceRequest" level="WARN" />
 
     <root level="INFO">

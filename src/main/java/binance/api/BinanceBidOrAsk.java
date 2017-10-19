@@ -15,13 +15,15 @@ import java.math.BigDecimal;
 @Data
 public class BinanceBidOrAsk {
 
+    public BidType type;
     public BigDecimal price = null;
     public BigDecimal quantity = null;
 
     public BinanceBidOrAsk() {}
 
-    public BinanceBidOrAsk(JsonArray arr) {
-        price = arr.get(0).getAsBigDecimal();
-        quantity = arr.get(1).getAsBigDecimal();
+    public BinanceBidOrAsk(BidType type, JsonArray arr) {
+        this.type = type;
+        this.price = arr.get(0).getAsBigDecimal();
+        this.quantity = arr.get(1).getAsBigDecimal();
     }
 }

@@ -57,8 +57,8 @@ public class BinanceOrderPlacement {
         sb.append("&quantity=").append(quantity.toString());
 
         if (type == BinanceOrderType.MARKET) {
-            // price can be skipped for a market order, we are accepting market price
-            sb.append("&price=0");
+            // price should be skipped for a market order, we are accepting market price
+            // sb.append("&price=0");
         } else {
             if (price == null || price.compareTo(BigDecimal.ZERO) <= 0) {
                 throw new BinanceApiException("Order price should be bigger than zero");

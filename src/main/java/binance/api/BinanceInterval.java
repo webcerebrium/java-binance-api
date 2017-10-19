@@ -35,6 +35,7 @@ public enum BinanceInterval {
 
     ;
     private String value;
+
     BinanceInterval(final String value) {
         this.value = value;
     }
