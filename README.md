@@ -20,6 +20,7 @@ and they will be accepted in higher priority comparing to resource file.
 #### Running tests
 
 Tests with API coverage could be launched with `gradle test`. Before running, make sure API keys are set as described above.
+For successful tests passing, it is desired to have some BTC, ETH and BNB available.
 
 #### Running from command line
 
@@ -219,10 +220,22 @@ System.out.println("KLINE=" + binanceCandlestick.toString() );
 <pre>KLINE=BinanceCandlestick(openTime=1508378400000, open=0.05598000, high=0.05622000, low=0.05569100, close=0.05570500, volume=1514.33900000, closeTime=1508381999999, quoteAssetVolume=84.65979632, numberOfTrades=1683, takerBuyBaseAssetVolume=716.56500000, takerBuyQuoteAssetVolume=40.07877823)</pre>
 </details>
 
+
+
+
+
 ## Placing Orders
 
 #### Placing a LIMIT order
 ```java
+BinanceApi api = new BinanceApi();
+BinanceSymbol symbol = new BinanceSymbol("ETHBTC");
+BinanceOrderPlacement placement = new BinanceOrderPlacement(symbol, BinanceOrderSide.BUY);
+placement.setType(BinanceOrderType.LIMIT);
+placement.setPrice(BigDecimal.valueOf(0.00001));
+placement.setQuantity(BigDecimal.valueOf(10000)); // buy 10000 of asset for 0.00001 BTC
+BinanceOrder order = api.getOrder(symbol, api.createOrder(placement).get("orderId").getAsLong());
+System.out.println(order.toString());
 ```
 <details><summary>View Output</summary>
 <pre></pre>
@@ -231,14 +244,29 @@ System.out.println("KLINE=" + binanceCandlestick.toString() );
 
 #### Placing a MARKET order
 ```java
+BinanceApi api = new BinanceApi();
+BinanceSymbol symbol = new BinanceSymbol("ETHBTC");
+BinanceOrderPlacement placement = new BinanceOrderPlacement(symbol, BinanceOrderSide.BUY);
+placement.setType(BinanceOrderType.MARKET);
+placement.setPrice(BigDecimal.valueOf(0.00001));
+placement.setQuantity(BigDecimal.valueOf(10000)); // buy 10000 of asset for 0.00001 BTC
+BinanceOrder order = api.getOrder(symbol, api.createOrder(placement).get("orderId").getAsLong());
+System.out.println(order.toString());
 ```
 <details><summary>View Output</summary>
 <pre></pre>
 </details>
 
-
 #### Placing a STOP LOSS order
 ```java
+BinanceApi api = new BinanceApi();
+BinanceSymbol symbol = new BinanceSymbol("ETHBTC");
+BinanceOrderPlacement placement = new BinanceOrderPlacement(symbol, BinanceOrderSide.SELL);
+placement.setPrice(BigDecimal.valueOf(0.069));
+placement.setStopPrice(BigDecimal.valueOf(0.068));
+placement.setQuantity(BigDecimal.valueOf(1)); // sell 1 piece of asset
+BinanceOrder order = api.getOrder(symbol, api.createOrder(placement).get("orderId").getAsLong());
+System.out.println(order.toString());
 ```
 <details><summary>View Output</summary>
 <pre></pre>
@@ -246,41 +274,62 @@ System.out.println("KLINE=" + binanceCandlestick.toString() );
 
 #### Placing an ICEBERG order
 ```java
+BinanceApi api = new BinanceApi();
+BinanceSymbol symbol = new BinanceSymbol("ETHBTC");
+BinanceOrderPlacement placement = new BinanceOrderPlacement(symbol, BinanceOrderSide.SELL);
+placement.setPrice(BigDecimal.valueOf(0.069));
+placement.setQuantity(BigDecimal.valueOf(1)); // sell 1 piece of asset
+placement.setIcebergQty(BigDecimal.valueOf(10));
+BinanceOrder order = api.getOrder(symbol, api.createOrder(placement).get("orderId").getAsLong());
+System.out.println(order.toString());
 ```
 <details><summary>View Output</summary>
 <pre></pre>
 </details>
-
 
 #### Cancel an order
 ```java
+BinanceOrder order = api.getOrder(symbol, 123456L);
+System.out.println(order.cancelOrder(order));
 ```
 <details><summary>View Output</summary>
-<pre></pre>
+<pre>
+{}
+</pre>
 </details>
+
 
 ## Using User Data Streams
 
 #### Start User Data Stream
 ```java
+String listenKey = (new BinanceApi()).startUserDataStream();
+System.out.println(listenKey);
 ```
 <details><summary>View Output</summary>
-<pre></pre>
+<pre>pqia91ma19a5s61cv6a81va65sdf19v8a65a1a5s61cv6a81va65sdf19v8a65a1</pre>
 </details>
 
 #### Keep User Data Stream Alive
 ```java
+String listenKey = "pqia91ma19a5s61cv6a81va65sdf19v8a65a1a5s61cv6a81va65sdf19v8a65a1";
+(new BinanceApi()).keepUserDataStream(listenKey);
 ```
 <details><summary>View Output</summary>
-<pre></pre>
+<pre>{}</pre>
 </details>
 
 #### Close User Data Stream
 ```java
+String listenKey = "pqia91ma19a5s61cv6a81va65sdf19v8a65a1a5s61cv6a81va65sdf19v8a65a1";
+(new BinanceApi()).deleteUserDataStream(listenKey);
 ```
 <details><summary>View Output</summary>
-<pre></pre>
+<pre>{}</pre>
 </details>
+
+
+## Connecting to Web Sockets
 
 #### User Data Web Socket Watcher
 ```java
@@ -289,8 +338,6 @@ System.out.println("KLINE=" + binanceCandlestick.toString() );
 <pre></pre>
 </details>
 
-
-## Connecting to other Web Sockets
 
 #### Depth Web Socket Watcher
 ```java

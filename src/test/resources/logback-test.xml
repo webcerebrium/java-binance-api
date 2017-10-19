@@ -6,7 +6,7 @@
     </appender>
 
     <logger name="root" level="DEBUG" />
-    <logger name="binance.api.BinanceRequest" level="DEBUG" />
+    <logger name="binance.api.BinanceRequest" level="INFO" />
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />

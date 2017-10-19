@@ -84,13 +84,13 @@ public class BinanceRequest {
             list.add("timestamp=" + String.valueOf(new Date().getTime()));
             String queryToAdd = String.join("&", list);
             String query = "";
-            log.info("RequestUrl = {}", requestUrl);
+            log.debug("RequestUrl = {}", requestUrl);
             if (requestUrl.contains("?")) {
                 query = requestUrl.substring(requestUrl.indexOf('?') + 1) + "&";
             }
             query = query.concat(queryToAdd);
 
-            log.info("Query to be included in signature = {} queryToAdd={}", query, queryToAdd);
+            log.debug("Query to be included in signature = {} queryToAdd={}", query, queryToAdd);
             try {
                 String signature = encode(secretKey, query); // set the HMAC hash header
                 String concatenator = requestUrl.contains("?") ? "&" : "?";
@@ -154,7 +154,7 @@ public class BinanceRequest {
         URL url = null;
         try {
             url = new URL(requestUrl);
-            log.info("Requesting {}", url);
+            log.info("{} {}", getMethod(), url);
         } catch (MalformedURLException e) {
             throw new BinanceApiException("Mailformed URL " + e.getMessage());
         }
