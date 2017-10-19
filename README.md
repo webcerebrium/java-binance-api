@@ -379,7 +379,8 @@ BinanceEventAggTrade(eventTime=1508412260835, symbol=ETHBTC, aggregatedTradeId=2
 #### User Data Web Socket Listener
 ```java
 BinanceSymbol symbol = new BinanceSymbol("ETHBTC");
-Session session = (new BinanceApi()).websocketDepth(symbol, new BinanceWebSocketAdapterUserData() {
+String listenKey = binanceApi.startUserDataStream();
+Session session = binanceApi.websocket(listenKey, new BinanceWebSocketAdapterUserData() {
     @Override
     public void onOutboundAccountInfo(BinanceEventOutboundAccountInfo message) {
         System.out.println(message.toString());
@@ -391,7 +392,6 @@ Session session = (new BinanceApi()).websocketDepth(symbol, new BinanceWebSocket
 });
 Thread.sleep(5000);
 session.close();
-
 ```
 
 # License
