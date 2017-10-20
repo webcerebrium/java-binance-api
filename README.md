@@ -137,12 +137,18 @@ System.out.println((new BinanceApi()).withdraw("ETH", 0.01, address, ""));
 ```
 
 #### Getting All Deposits History
+
+Server side team still works on this endpoint. At the moment of writing that you will just receive a message in Chinese about parameters exception.
+
 ```java
 BinanceHistoryFilter historyFilter = new BinanceHistoryFilter();
 System.out.println((new BinanceApi()).getDepositHistory(historyFilter));
 ```
 
 #### Getting Withdrawal History
+
+Server side team still works on this endpoint. At the moment of writing that you will just receive a message in Chinese about parameters exception.
+
 ```java
 BinanceHistoryFilter historyFilter = new BinanceHistoryFilter("ETH");
 Calendar cal = Calendar.getInstance();
@@ -400,7 +406,6 @@ BinanceEventAggTrade(eventTime=1508412260835, symbol=ETHBTC, aggregatedTradeId=2
 #### User Data Web Socket Listener
 ```java
 BinanceApi api = new BinanceApi();
-BinanceSymbol symbol = new BinanceSymbol("ETHBTC");
 String listenKey = api.startUserDataStream();
 Session session = api.websocket(listenKey, new BinanceWebSocketAdapterUserData() {
     @Override
