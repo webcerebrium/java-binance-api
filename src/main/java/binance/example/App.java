@@ -21,6 +21,8 @@ public class App {
             System.out.println("This is just an API wrapper. Please see usage cases in unit tests or README.md" );
             BinanceApi api = new BinanceApi();
             System.out.println("ETH-BTC PRICE=" + api.pricesMap().get("ETHBTC") );
+
+
         } catch (BinanceApiException e) {
             System.err.println("ERROR: " + e.getMessage());
         }

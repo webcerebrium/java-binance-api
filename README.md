@@ -130,6 +130,27 @@ System.out.println((new BinanceApi()).myTrades(BinanceSymbol.valueOf("BQXBTC")))
 </details>
 
 
+#### Withdrawals
+```java
+String address = "0x1234567890123456789012345678901234567890";
+System.out.println((new BinanceApi()).withdraw("ETH", 0.01, address, ""));
+```
+
+#### Getting All Deposits History
+```java
+BinanceHistoryFilter historyFilter = new BinanceHistoryFilter();
+System.out.println((new BinanceApi()).getDepositHistory(historyFilter));
+```
+
+#### Getting Withdrawal History
+```java
+BinanceHistoryFilter historyFilter = new BinanceHistoryFilter("ETH");
+Calendar cal = Calendar.getInstance();
+cal.add(Calendar.MONTH, -3); // only last 3 months
+historyFilter.setStartTime(cal.getTime());
+System.out.println((new BinanceApi()).getWithdrawHistory(historyFilter));
+```
+
 ## Getting Market Data
 
 #### Getting Bids and Asks on Symbol

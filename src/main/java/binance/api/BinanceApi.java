@@ -45,6 +45,12 @@ public class BinanceApi {
      */
     public String baseUrl = "https://www.binance.com/api/";
     /**
+     * W-API Base URL. God knows why it differs from base API.
+     * These endpoints are less stable, another team is instantly working on that part of API
+     * (at the moment of writing that)
+     */
+    public String baseWapiUrl = "https://www.binance.com/wapi/";
+    /**
      * Base URL for websockets
      */
     public String websocketBaseUrl = "wss://stream.binance.com:9443/ws/";
@@ -653,11 +659,11 @@ public class BinanceApi {
      * @param address
      * @param amount
      * @param name label of destination address, can be left empty
-     * @return
+     * @return empty json object if success
      * @throws BinanceApiException
      */
     public JsonObject withdraw(String asset, String address, long amount, String name) throws BinanceApiException {
-        String u = baseUrl + "wapi/v1/withdraw.html?asset=" + esc.escape(asset) +
+        String u = baseWapiUrl + "/v1/withdraw.html?asset=" + esc.escape(asset) +
                 "&address=" + esc.escape(address) +
                 "&amount=" + amount;
         if (!Strings.isNullOrEmpty(name)) {
@@ -666,6 +672,35 @@ public class BinanceApi {
         return (new BinanceRequest(u))
                 .sign(apiKey).post().read().asJsonObject();
     }
+
+    /**
+     * Getting history of withdrawals
+     * @warning: so far response is string. at the moment of writing
+     * there is a response in Chinese about parameter exception (which cannot be parsed by JSON),
+     * and someone seems to still work on that part of server side
+     * @param historyFilter
+     * @return
+     */
+    public String getWithdrawHistory(BinanceHistoryFilter historyFilter) throws BinanceApiException {
+        String q = historyFilter.getAsQuery();
+        String u = baseWapiUrl + "v1/getWithdrawHistory.html" + (Strings.isNullOrEmpty(q) ? "": ("?" + q));
+        return (new BinanceRequest(u)).sign(apiKey).post().read().getLastResponse();
+    }
+
+    /**
+     * Getting history of deposits.
+     * @warning: so far response is string. at the moment of writing
+     * there is a response in Chinese about parameter exception (which cannot be parsed by JSON),
+     * and someone seems to still work on that part of server side
+     * @param historyFilter
+     * @return
+     */
+    public String getDepositHistory(BinanceHistoryFilter historyFilter) throws BinanceApiException {
+        String q = historyFilter.getAsQuery();
+        String u = baseWapiUrl + "v1/getDepositHistory.html" + (Strings.isNullOrEmpty(q) ? "": ("?" + q));
+        return (new BinanceRequest(u)).sign(apiKey).post().read().getLastResponse();
+    }
+
 }
 
 
