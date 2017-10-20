@@ -572,6 +572,41 @@ public class BinanceApi {
     }
 
     /**
+     * Depth Websocket Stream Listener - best 20 levels
+     * @param symbol
+     * @param adapter
+     * @return
+     * @throws BinanceApiException
+     */
+    public Session websocketDepth20(BinanceSymbol symbol, BinanceWebSocketAdapterDepth adapter) throws BinanceApiException {
+        return getWebsocketSession(symbol.toString().toLowerCase() + "@depth20", adapter);
+    }
+
+    /**
+     * Depth Websocket Stream Listener - best 10 levels
+     * @param symbol
+     * @param adapter
+     * @return
+     * @throws BinanceApiException
+     */
+    public Session websocketDepth10(BinanceSymbol symbol, BinanceWebSocketAdapterDepth adapter) throws BinanceApiException {
+        return getWebsocketSession(symbol.toString().toLowerCase() + "@depth10", adapter);
+    }
+
+    /**
+     * Depth Websocket Stream Listener - best 5 lavels
+     * @param symbol
+     * @param adapter
+     * @return
+     * @throws BinanceApiException
+     */
+    public Session websocketDepth5(BinanceSymbol symbol, BinanceWebSocketAdapterDepth adapter) throws BinanceApiException {
+        return getWebsocketSession(symbol.toString().toLowerCase() + "@depth5", adapter);
+    }
+
+
+
+    /**
      * Klines Websocket Stream Listener
      * @param symbol
      * @param interval
