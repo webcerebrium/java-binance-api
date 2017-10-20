@@ -9,6 +9,8 @@ package binance.api;
  * ============================================================ */
 
 import com.google.common.base.Strings;
+import com.google.common.escape.Escaper;
+import com.google.common.net.UrlEscapers;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -35,6 +37,7 @@ public class BinanceOrderPlacement {
 
     public String getAsQuery() throws BinanceApiException {
         StringBuffer sb = new StringBuffer();
+        Escaper esc = UrlEscapers.urlFormParameterEscaper();
         if (symbol == null) {
             throw new BinanceApiException("Order Symbol is not set");
         }
@@ -67,7 +70,7 @@ public class BinanceOrderPlacement {
         }
 
         if (!Strings.isNullOrEmpty(newClientOrderId)) {
-            sb.append("&newClientOrderId=").append(newClientOrderId);
+            sb.append("&newClientOrderId=").append(esc.escape(newClientOrderId));
         }
         if (stopPrice != null) {
             sb.append("&stopPrice=").append(stopPrice.toString());

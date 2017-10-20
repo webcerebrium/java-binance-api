@@ -9,6 +9,8 @@ package binance.api;
  * ============================================================ */
 
 import com.google.common.base.Strings;
+import com.google.common.escape.Escaper;
+import com.google.common.net.UrlEscapers;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -46,6 +48,11 @@ public class BinanceApi {
      * Base URL for websockets
      */
     public String websocketBaseUrl = "wss://stream.binance.com:9443/ws/";
+
+    /**
+     * Guava Class Instance for escaping
+     */
+    private Escaper esc = UrlEscapers.urlFormParameterEscaper();
 
     /**
      * Constructor of API when you exactly know the keys
@@ -408,7 +415,7 @@ public class BinanceApi {
      * @throws BinanceApiException
      */
     public BinanceOrder getOrderByOrigClientId(BinanceSymbol symbol, String origClientOrderId)  throws BinanceApiException {
-        String u = baseUrl + "v3/order?symbol=" + symbol.toString() + "&origClientOrderId=" + origClientOrderId;
+        String u = baseUrl + "v3/order?symbol=" + symbol.toString() + "&origClientOrderId=" + esc.escape(origClientOrderId);
         String lastResponse = (new BinanceRequest(u)).sign(apiKey, secretKey, null).read().getLastResponse();
         return (new Gson()).fromJson(lastResponse, BinanceOrder.class);
     }
@@ -467,7 +474,7 @@ public class BinanceApi {
      * @throws BinanceApiException
      */
     public JsonObject deleteOrderByOrigClientId(BinanceSymbol symbol, String origClientOrderId) throws BinanceApiException {
-        String u = baseUrl + "v3/order?symbol=" + symbol.toString() + "&origClientOrderId=" + origClientOrderId;
+        String u = baseUrl + "v3/order?symbol=" + symbol.toString() + "&origClientOrderId=" + esc.escape(origClientOrderId);
         return (new BinanceRequest(u)).sign(apiKey, secretKey, null).delete().read().asJsonObject();
     }
 
@@ -479,7 +486,7 @@ public class BinanceApi {
      * @throws BinanceApiException
      */
     public JsonObject deleteOrderByNewClientId(BinanceSymbol symbol, String newClientOrderId ) throws BinanceApiException {
-        String u = baseUrl + "v3/order?symbol=" + symbol.toString() + "&newClientOrderId=" + newClientOrderId;
+        String u = baseUrl + "v3/order?symbol=" + symbol.toString() + "&newClientOrderId=" + esc.escape(newClientOrderId);
         return (new BinanceRequest(u)).sign(apiKey, secretKey, null).delete().read().asJsonObject();
     }
 
@@ -519,7 +526,7 @@ public class BinanceApi {
      * @throws BinanceApiException
      */
     public JsonObject keepUserDataStream(String listenKey) throws BinanceApiException {
-        return (new BinanceRequest(baseUrl + "v1/userDataStream?listenKey=" + listenKey))
+        return (new BinanceRequest(baseUrl + "v1/userDataStream?listenKey=" + esc.escape(listenKey)))
                 .sign(apiKey).put().read().asJsonObject();
     }
 
@@ -530,7 +537,7 @@ public class BinanceApi {
      * @throws BinanceApiException
      */
     public JsonObject deleteUserDataStream(String listenKey) throws BinanceApiException {
-        return (new BinanceRequest(baseUrl + "v1/userDataStream?listenKey=" + listenKey))
+        return (new BinanceRequest(baseUrl + "v1/userDataStream?listenKey=" + esc.escape(listenKey)))
                 .sign(apiKey).delete().read().asJsonObject();
     }
 
@@ -640,6 +647,25 @@ public class BinanceApi {
         return getWebsocketSession(listenKey, adapter);
     }
 
+    /**
+     * Withdrawal APIs
+     * @param asset
+     * @param address
+     * @param amount
+     * @param name label of destination address, can be left empty
+     * @return
+     * @throws BinanceApiException
+     */
+    public JsonObject withdraw(String asset, String address, long amount, String name) throws BinanceApiException {
+        String u = baseUrl + "wapi/v1/withdraw.html?asset=" + esc.escape(asset) +
+                "&address=" + esc.escape(address) +
+                "&amount=" + amount;
+        if (!Strings.isNullOrEmpty(name)) {
+            u += "name=" + esc.escape(name);
+        }
+        return (new BinanceRequest(u))
+                .sign(apiKey).post().read().asJsonObject();
+    }
 }
 
 

@@ -11,6 +11,9 @@ public class BinanceSymbol {
         if (Strings.isNullOrEmpty(symbol)) {
             throw new BinanceApiException("Symbol cannot be empty. Example: BQXBTC");
         }
+        if (symbol.contains(" ")) {
+            throw new BinanceApiException("Symbol cannot contain spaces. Example: BQXBTC");
+        }
         if (!symbol.endsWith("BTC") && !symbol.endsWith("ETH") && !symbol.endsWith("USDT")) {
             throw new BinanceApiException("Market Symbol should be ending with BTC, ETH oir USDT. Example: BQXBTC");
         }
