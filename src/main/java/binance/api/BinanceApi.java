@@ -80,7 +80,6 @@ public class BinanceApi {
         BinanceConfig config = new BinanceConfig();
         this.apiKey = config.getVariable("BINANCE_API_KEY");
         this.secretKey = config.getVariable("BINANCE_SECRET_KEY");
-        validateCredentials();
     }
 
     /**

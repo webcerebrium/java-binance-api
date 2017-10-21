@@ -81,6 +81,12 @@ public class BinanceRequest {
      * @throws BinanceApiException
      */
     public BinanceRequest sign(String apiKey, String secretKey, Map<String, String> options) throws BinanceApiException {
+        String humanMessage = "Please check environment variables or VM options";
+        if (Strings.isNullOrEmpty(apiKey))
+            throw new BinanceApiException("Missing BINANCE_API_KEY. " + humanMessage);
+        if (Strings.isNullOrEmpty(secretKey))
+            throw new BinanceApiException("Missing BINANCE_SECRET_KEY. " + humanMessage);
+
         if (!Strings.isNullOrEmpty(secretKey) && !requestUrl.contains("&signature=")) {
             List<String> list = new LinkedList<>();
             if (options != null) {
@@ -88,7 +94,7 @@ public class BinanceRequest {
                     list.add(key + "=" + options.get(key));
                 }
             }
-            list.add("recvWindow=" + 6000);
+            list.add("recvWindow=" + 7000);
             list.add("timestamp=" + String.valueOf(new Date().getTime()));
             String queryToAdd = String.join("&", list);
             String query = "";
@@ -119,6 +125,10 @@ public class BinanceRequest {
      * @throws BinanceApiException
      */
     public BinanceRequest sign(String apiKey) throws BinanceApiException {
+        String humanMessage = "Please check environment variables or VM options";
+        if (Strings.isNullOrEmpty(apiKey))
+            throw new BinanceApiException("Missing BINANCE_API_KEY. " + humanMessage);
+
         headers.put("X-MBX-APIKEY", apiKey);
         headers.put("Content-Type", "application/x-www-form-urlencoded");
         return this;
