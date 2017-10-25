@@ -7,7 +7,7 @@
 
     <logger name="root" level="DEBUG" />
     <logger name="org.eclipse.jetty" level="WARN" />
-    <logger name="binance.api" level="DEBUG" />
+    <logger name="com.webcerebrium.binance.api" level="DEBUG" />
     <logger name="com.webcerebrium.binance.api.BinanceRequest" level="DEBUG" />
 
 
