@@ -62,9 +62,9 @@ public class BinanceApi {
 
     /**
      * Constructor of API when you exactly know the keys
-     * @param apiKey
-     * @param secretKey
-     * @throws BinanceApiException
+     * @param apiKey Public API Key
+     * @param secretKey Secret API Key
+     * @throws BinanceApiException in case of any error
      */
     public BinanceApi(String apiKey, String secretKey) throws BinanceApiException {
         this.apiKey = apiKey;
@@ -74,7 +74,7 @@ public class BinanceApi {
 
     /**
      * Constructor of API - keys are loaded from VM options, environment variables, resource files
-     * @throws BinanceApiException
+     * @throws BinanceApiException in case of any error
      */
     public BinanceApi() throws BinanceApiException {
         BinanceConfig config = new BinanceConfig();
@@ -84,7 +84,7 @@ public class BinanceApi {
 
     /**
      * Validation we have API keys set up
-     * @throws BinanceApiException
+     * @throws BinanceApiException in case of any error
      */
     protected void validateCredentials() throws BinanceApiException {
         String humanMessage = "Please check environment variables or VM options";
@@ -101,6 +101,7 @@ public class BinanceApi {
     /**
      * Checking connectivity,
      * @return empty object
+     * @throws BinanceApiException in case of any error
      */
     public JsonObject ping() throws BinanceApiException {
         return (new BinanceRequest(baseUrl + "v1/ping"))
@@ -110,7 +111,7 @@ public class BinanceApi {
     /**
      * Checking server time,
      * @return JsonObject, expected { serverTime: 00000 }
-     * @throws BinanceApiException
+     * @throws BinanceApiException in case of any error
      */
     public JsonObject time() throws BinanceApiException {
         return (new BinanceRequest(baseUrl + "v1/time"))
@@ -123,9 +124,9 @@ public class BinanceApi {
 
     /**
      * 24hr ticker price change statistics
-     * @param symbol
-     * @return
-     * @throws BinanceApiException
+     * @param symbol Symbol pair, i.e. BNBBTC
+     * @return result in JSON
+     * @throws BinanceApiException in case of any error
      */
     public JsonObject depth(BinanceSymbol symbol) throws BinanceApiException {
         return (new BinanceRequest(baseUrl + "v1/depth?symbol=" + symbol.get()))
@@ -134,10 +135,10 @@ public class BinanceApi {
 
     /**
      * 24hr ticker price change statistics, with limit explicitly set
-     * @param symbol
-     * @param limit
-     * @return
-     * @throws BinanceApiException
+     * @param symbol Symbol pair, i.e. BNBBTC
+     * @param limit numeric limit of results
+     * @return result in JSON
+     * @throws BinanceApiException in case of any error
      */
     public JsonObject depth(BinanceSymbol symbol, int limit) throws BinanceApiException {
         return (new BinanceRequest(baseUrl + "v1/depth?symbol=" + symbol.get() + "&limit=" + limit))
@@ -150,11 +151,11 @@ public class BinanceApi {
      * Allowed options - fromId, startTime, endTime.
      * If both startTime and endTime are sent, limit should not be sent AND the distance between startTime and endTime must be less than 24 hours.
      * If fromId, startTime, and endTime are not sent, the most recent aggregate trades will be returned.
-     * @param symbol
-     * @param limit
-     * @param options
-     * @return
-     * @throws BinanceApiException
+     * @param symbol Symbol pair, i.e. BNBBTC
+     * @param limit numeric limit of results
+     * @param options map of additional properties. leave null if not needed
+     * @return list of aggregated trades
+     * @throws BinanceApiException in case of any error
      */
     public List<BinanceAggregatedTrades> aggTrades(BinanceSymbol symbol, int limit, Map<String, Long> options) throws BinanceApiException {
         String u = baseUrl + "v1/aggTrades?symbol=" + symbol.get() + "&limit=" + limit;
@@ -176,10 +177,11 @@ public class BinanceApi {
 
     /**
      * short version of aggTrades with less parameters
-     * @param symbol
-     * @param options
-     * @return
-     * @throws BinanceApiException
+     *
+     * @param symbol Symbol pair, i.e. BNBBTC
+     * @param options map of additional properties. leave null if not needed
+     * @return list of aggregated trades
+     * @throws BinanceApiException in case of any error
      */
     public List<BinanceAggregatedTrades> aggTrades(BinanceSymbol symbol, Map<String, Long> options) throws BinanceApiException {
         return this.aggTrades(symbol, 500, options);
@@ -187,9 +189,10 @@ public class BinanceApi {
 
     /**
      * short version of aggTrades with less parameters
-     * @param symbol
-     * @return
-     * @throws BinanceApiException
+     *
+     * @param symbol Symbol pair, i.e. BNBBTC
+     * @return list of aggregated trades
+     * @throws BinanceApiException in case of any error
      */
     public List<BinanceAggregatedTrades> aggTrades(BinanceSymbol symbol) throws BinanceApiException {
         return this.aggTrades(symbol, 500, null);
@@ -198,12 +201,12 @@ public class BinanceApi {
     /**
      * Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time.
      * if startTime and endTime are not sent, the most recent klines are returned.
-     * @param symbol
-     * @param interval
-     * @param limit
-     * @param options
-     * @return
-     * @throws BinanceApiException
+     * @param symbol Symbol pair, i.e. BNBBTC
+     * @param interval valid time interval, see BinanceInterval enum
+     * @param limit numeric limit of results
+     * @param options options map of additional properties. leave null if not needed
+     * @return list of candlesticks
+     * @throws BinanceApiException in case of any error
      */
     public List<BinanceCandlestick> klines(BinanceSymbol symbol, BinanceInterval interval, int limit, Map<String, Long> options) throws BinanceApiException {
         String u = baseUrl + "v1/klines?symbol=" + symbol.get() + "&interval=" + interval.toString() + "&limit=" + limit;
@@ -223,10 +226,10 @@ public class BinanceApi {
 
     /**
      * short version of klines() with less parameters
-     * @param symbol
-     * @param interval
-     * @return
-     * @throws BinanceApiException
+     * @param symbol Symbol pair, i.e. BNBBTC
+     * @param interval  valid time interval, see BinanceInterval enum
+     * @return list of candlesticks
+     * @throws BinanceApiException in case of any error
      */
     public List<BinanceCandlestick> klines(BinanceSymbol symbol, BinanceInterval interval) throws BinanceApiException {
         return klines(symbol, interval, 500, null);
@@ -234,9 +237,9 @@ public class BinanceApi {
 
     /**
      * 24hr ticker price change statistics
-     * @param symbol
-     * @return JsonObject
-     * @throws BinanceApiException
+     * @param symbol Symbol pair, i.e. BNBBTC
+     * @return json with prices
+     * @throws BinanceApiException in case of any error
      */
     public JsonObject ticker24hr(BinanceSymbol symbol) throws BinanceApiException {
         return (new BinanceRequest(baseUrl + "v1/ticker/24hr?symbol=" + symbol.get()))
@@ -246,8 +249,8 @@ public class BinanceApi {
     /**
      * Latest price for all symbols
      *
-     * @return raw JSON Array
-     * @throws BinanceApiException
+     * @return raw JSON Array of all prices
+     * @throws BinanceApiException  in case of any error
      */
     public JsonArray allPrices() throws BinanceApiException {
         return (new BinanceRequest(baseUrl + "v1/ticker/allPrices"))
@@ -258,7 +261,7 @@ public class BinanceApi {
      * Latest price for all symbols -
      *
      * @return Map of big decimals
-     * @throws BinanceApiException
+     * @throws BinanceApiException in case of any error
      */
     public Map<String, BigDecimal> pricesMap() throws BinanceApiException {
         Map<String, BigDecimal> map = new HashMap<String, BigDecimal>();
@@ -273,7 +276,7 @@ public class BinanceApi {
      * Get best price/qty on the order book for all symbols.
      *
      * @return JsonArray
-     * @throws BinanceApiException
+     * @throws BinanceApiException in case of any error
      */
     public JsonArray allBookTickers() throws BinanceApiException {
         return (new BinanceRequest(baseUrl + "v1/ticker/allBookTickers"))
@@ -284,7 +287,7 @@ public class BinanceApi {
      * Get best price/qty on the order book for all symbols.
      *
      * @return map of BinanceTicker
-     * @throws BinanceApiException
+     * @throws BinanceApiException in case of any error
      */
     public Map<String, BinanceTicker> allBookTickersMap() throws BinanceApiException {
         String lastResponse = (new BinanceRequest(baseUrl + "v1/ticker/allBookTickers")).read().getLastResponse();
@@ -304,7 +307,7 @@ public class BinanceApi {
     /**
      * Getting account information
      * @return JsonObject
-     * @throws BinanceApiException
+     * @throws BinanceApiException in case of any error
      */
     public JsonObject account() throws BinanceApiException {
         return (new BinanceRequest(baseUrl + "v3/account"))
@@ -314,7 +317,7 @@ public class BinanceApi {
     /**
      * Getting balances - part of account information
      * @return JsonArray
-     * @throws BinanceApiException
+     * @throws BinanceApiException in case of any error
      */
     public JsonArray balances() throws BinanceApiException {
         return account().get("balances").getAsJsonArray();
@@ -323,7 +326,7 @@ public class BinanceApi {
     /**
      * Getting balances - part of account information
      * @return map of wallet assets structure
-     * @throws BinanceApiException
+     * @throws BinanceApiException  in case of any error
      */
     public Map<String, BinanceWalletAsset> balancesMap() throws BinanceApiException {
         Map<String, BinanceWalletAsset> mapAssets = new HashMap<>();
@@ -336,9 +339,9 @@ public class BinanceApi {
 
     /**
      * Get all open orders on a symbol.
-     * @param symbol
-     * @return
-     * @throws BinanceApiException
+     * @param symbol i.e. BNBBTC
+     * @return List of Orders
+     * @throws BinanceApiException in case of any error
      */
     public List<BinanceOrder> openOrders(BinanceSymbol symbol) throws BinanceApiException {
         String u = baseUrl + "v3/openOrders?symbol=" + symbol.toString();
@@ -349,13 +352,13 @@ public class BinanceApi {
     }
     /**
      * Get all orders on a symbol; active, canceled, or filled.
-     * If orderId is set (not null and > 0), it will get orders >= that orderId.
+     * If orderId is set (not null and greater than 0), it will get orders greater or equal than orderId.
      * Otherwise most recent orders are returned.
-     * @param symbol
-     * @param orderId
-     * @param limit
-     * @return
-     * @throws BinanceApiException
+     * @param symbol i.e. BNBBTC
+     * @param orderId numeric Order ID
+     * @param limit numeric limit of orders in result
+     * @return List of Orders
+     * @throws BinanceApiException in case of any error
      */
     public List<BinanceOrder> allOrders(BinanceSymbol symbol, Long orderId, int limit) throws BinanceApiException {
         String u = baseUrl + "v3/allOrders?symbol=" + symbol.toString() + "&limit=" + limit;
@@ -368,20 +371,20 @@ public class BinanceApi {
 
     /**
      * short version of allOrders
-     * @param symbol
+     * @param symbol i.e. BNBBTC
      * @return list of orders
-     * @throws BinanceApiException
+     * @throws BinanceApiException in case of any error
      */
     public List<BinanceOrder> allOrders(BinanceSymbol symbol) throws BinanceApiException {
         return allOrders(symbol, 0L, 500);
     }
     /**
      * Get trades for a specific account and symbol.
-     * @param symbol
-     * @param orderId
-     * @param limit
+     * @param symbol i.e. BNBBTC
+     * @param orderId numeric order ID
+     * @param limit numeric limit of results
      * @return list of trades
-     * @throws BinanceApiException
+     * @throws BinanceApiException in case of any error
      */
     public List<BinanceTrade> myTrades(BinanceSymbol symbol, Long orderId, int limit) throws BinanceApiException {
         String u = baseUrl + "v3/myTrades?symbol=" + symbol.toString() + "&limit=" + limit;
@@ -393,8 +396,9 @@ public class BinanceApi {
 
     /**
      * short version of myTrades(symbol, orderId, limit)
-     * @param symbol
-     * @throws BinanceApiException
+     * @param symbol i.e. BNBBTC
+     * @return list of trades
+     * @throws BinanceApiException in case of any error
      */
     public List<BinanceTrade> myTrades(BinanceSymbol symbol) throws BinanceApiException {
         return myTrades(symbol, 0L, 500);
@@ -402,10 +406,10 @@ public class BinanceApi {
 
     /**
      * Get Order Status
-     * @param symbol
-     * @param orderId
+     * @param symbol i.e. BNBBTC
+     * @param orderId numeric order ID
      * @return BinanceOrder object if successfull
-     * @throws BinanceApiException
+     * @throws BinanceApiException in case of any error
      */
     public BinanceOrder getOrderById(BinanceSymbol symbol, Long orderId ) throws BinanceApiException {
         String u = baseUrl + "v3/order?symbol=" + symbol.toString() + "&orderId=" + orderId;
@@ -414,10 +418,10 @@ public class BinanceApi {
     }
 
     /**
-     * @param symbol
-     * @param origClientOrderId
+     * @param symbol i.e. BNBBTC
+     * @param origClientOrderId Custom Order ID, generated by client
      * @return BinanceOrder object if successfull
-     * @throws BinanceApiException
+     * @throws BinanceApiException in case of any error
      */
     public BinanceOrder getOrderByOrigClientId(BinanceSymbol symbol, String origClientOrderId)  throws BinanceApiException {
         String u = baseUrl + "v3/order?symbol=" + symbol.toString() + "&origClientOrderId=" + esc.escape(origClientOrderId);
@@ -427,9 +431,11 @@ public class BinanceApi {
 
     /**
      * Getting order from order object. A wrapper for getOrderById(symbol, orderId)
-     * @param order
-     * @return
-     * @throws BinanceApiException
+     * In face, used to refresh information on existing order
+     *
+     * @param order existing order structure
+     * @return existing BinanceOrder record
+     * @throws BinanceApiException  in case of any error
      */
     public BinanceOrder getOrder(BinanceOrder order)  throws BinanceApiException {
         return getOrderById(BinanceSymbol.valueOf(order.getSymbol()), order.getOrderId() );
@@ -440,9 +446,9 @@ public class BinanceApi {
     // - - - - - - - - - - - - - - - - - - - - - - - -
 
     /**
-     * @param orderPlacement
-     * @return
-     * @throws BinanceApiException
+     * @param orderPlacement class for order placement
+     * @return json result from order placement
+     * @throws BinanceApiException in case of any error
      */
     public JsonObject createOrder(BinanceOrderPlacement orderPlacement)  throws BinanceApiException {
         String u = baseUrl + "v3/order?" + orderPlacement.getAsQuery();
@@ -450,22 +456,21 @@ public class BinanceApi {
     }
 
     /**
-     * @param orderPlacement
-     * @return
-     * @throws BinanceApiException
+     * @param orderPlacement class for order placement
+     * @return json result from order placement
+     * @throws BinanceApiException in case of any error
      */
     public JsonObject testOrder(BinanceOrderPlacement orderPlacement)  throws BinanceApiException {
         String u = baseUrl + "v3/order/test?" + orderPlacement.getAsQuery();
         return (new BinanceRequest(u)).sign(apiKey, secretKey, null).post().read().asJsonObject();
     }
 
-
     /**
      * Deletes order by order ID
-     * @param symbol
-     * @param orderId
-     * @return
-     * @throws BinanceApiException
+     * @param symbol i.e. "BNBBTC"
+     * @param orderId numeric Order ID
+     * @return json result from order placement
+     * @throws BinanceApiException in case of any error
      */
     public JsonObject deleteOrderById(BinanceSymbol symbol, Long orderId) throws BinanceApiException {
         String u = baseUrl + "v3/order?symbol=" + symbol.toString() + "&orderId=" + orderId;
@@ -473,10 +478,10 @@ public class BinanceApi {
     }
     /**
      * Deletes order by original client ID
-     * @param symbol
-     * @param origClientOrderId
-     * @return
-     * @throws BinanceApiException
+     * @param symbol i.e. "BNBBTC"
+     * @param origClientOrderId string order ID, generated by client
+     * @return json result
+     * @throws BinanceApiException in case of any error
      */
     public JsonObject deleteOrderByOrigClientId(BinanceSymbol symbol, String origClientOrderId) throws BinanceApiException {
         String u = baseUrl + "v3/order?symbol=" + symbol.toString() + "&origClientOrderId=" + esc.escape(origClientOrderId);
@@ -485,10 +490,10 @@ public class BinanceApi {
 
     /**
      * Deletes order by new client ID
-     * @param symbol
-     * @param newClientOrderId
-     * @return
-     * @throws BinanceApiException
+     * @param symbol i.e. "BNBBTC"
+     * @param newClientOrderId string order ID, generated by server
+     * @return json result
+     * @throws BinanceApiException in case of any error
      */
     public JsonObject deleteOrderByNewClientId(BinanceSymbol symbol, String newClientOrderId ) throws BinanceApiException {
         String u = baseUrl + "v3/order?symbol=" + symbol.toString() + "&newClientOrderId=" + esc.escape(newClientOrderId);
@@ -497,9 +502,9 @@ public class BinanceApi {
 
     /**`
      * Deletes order by BinanceOrder object
-     * @param order
-     * @return
-     * @throws BinanceApiException
+     * @param order object of existing order
+     * @return json result
+     * @throws BinanceApiException in case of any error
      */
     public JsonObject deleteOrder(BinanceOrder order) throws BinanceApiException {
         BinanceSymbol symbol = BinanceSymbol.valueOf(order.getSymbol());
@@ -515,8 +520,8 @@ public class BinanceApi {
 
     /**
      * Start user data stream, get a key for websocket
-     * @return
-     * @throws BinanceApiException
+     * @return listenKey - key that could be used to manage stream
+     * @throws BinanceApiException in case of any error
      */
     public String startUserDataStream() throws BinanceApiException {
         JsonObject jsonObject = (new BinanceRequest(baseUrl + "v1/userDataStream"))
@@ -526,9 +531,9 @@ public class BinanceApi {
 
     /**
      * Keep user data stream alive
-     * @param listenKey
-     * @return
-     * @throws BinanceApiException
+     * @param listenKey - key that could be used to manage stream
+     * @return json result
+     * @throws BinanceApiException in case of any error
      */
     public JsonObject keepUserDataStream(String listenKey) throws BinanceApiException {
         return (new BinanceRequest(baseUrl + "v1/userDataStream?listenKey=" + esc.escape(listenKey)))
@@ -537,9 +542,9 @@ public class BinanceApi {
 
     /**
      * Close user data stream
-     * @param listenKey
-     * @return
-     * @throws BinanceApiException
+     * @param listenKey key for user stream management
+     * @return json result
+     * @throws BinanceApiException in case of any error
      */
     public JsonObject deleteUserDataStream(String listenKey) throws BinanceApiException {
         return (new BinanceRequest(baseUrl + "v1/userDataStream?listenKey=" + esc.escape(listenKey)))
@@ -552,10 +557,10 @@ public class BinanceApi {
 
     /**
      * Base method for all websockets streams
-     * @param url
-     * @param adapter
-     * @return
-     * @throws BinanceApiException
+     * @param url derived methods will use unique base url
+     * @param adapter  class to handle the event
+     * @return web socket session
+     * @throws BinanceApiException in case of any error
      */
     public Session getWebsocketSession(String url, WebSocketAdapter adapter) throws BinanceApiException {
         try {
@@ -574,10 +579,10 @@ public class BinanceApi {
 
     /**
      * Depth Websocket Stream Listener
-     * @param symbol
-     * @param adapter
-     * @return
-     * @throws BinanceApiException
+     * @param symbol i.e. "BNBBTC"
+     * @param adapter class to handle the event
+     * @return web socket session
+     * @throws BinanceApiException in case of any error
      */
     public Session websocketDepth(BinanceSymbol symbol, BinanceWebSocketAdapterDepth adapter) throws BinanceApiException {
         return getWebsocketSession(symbol.toString().toLowerCase() + "@depth", adapter);
@@ -585,10 +590,10 @@ public class BinanceApi {
 
     /**
      * Depth Websocket Stream Listener - best 20 levels
-     * @param symbol
-     * @param adapter
-     * @return
-     * @throws BinanceApiException
+     * @param symbol i.e. "BNBBTC"
+     * @param adapter class to handle the events
+     * @return web socket session
+     * @throws BinanceApiException in case of any error
      */
     public Session websocketDepth20(BinanceSymbol symbol, BinanceWebSocketAdapterDepth adapter) throws BinanceApiException {
         return getWebsocketSession(symbol.toString().toLowerCase() + "@depth20", adapter);
@@ -596,10 +601,10 @@ public class BinanceApi {
 
     /**
      * Depth Websocket Stream Listener - best 10 levels
-     * @param symbol
-     * @param adapter
-     * @return
-     * @throws BinanceApiException
+     * @param symbol i.e. "BNBBTC"
+     * @param adapter  class to handle the events
+     * @return  web socket session
+     * @throws BinanceApiException in case of any error
      */
     public Session websocketDepth10(BinanceSymbol symbol, BinanceWebSocketAdapterDepth adapter) throws BinanceApiException {
         return getWebsocketSession(symbol.toString().toLowerCase() + "@depth10", adapter);
@@ -607,24 +612,22 @@ public class BinanceApi {
 
     /**
      * Depth Websocket Stream Listener - best 5 lavels
-     * @param symbol
-     * @param adapter
-     * @return
-     * @throws BinanceApiException
+     * @param symbol i.e. "BNBBTC"
+     * @param adapter class to handle the events
+     * @return web socket session
+     * @throws BinanceApiException in case of any error
      */
     public Session websocketDepth5(BinanceSymbol symbol, BinanceWebSocketAdapterDepth adapter) throws BinanceApiException {
         return getWebsocketSession(symbol.toString().toLowerCase() + "@depth5", adapter);
     }
 
-
-
     /**
      * Klines Websocket Stream Listener
-     * @param symbol
-     * @param interval
-     * @param adapter
-     * @return
-     * @throws BinanceApiException
+     * @param symbol i.e. "BNBBTC"
+     * @param interval  valid time interval, see BinanceInterval enum
+     * @param adapter class to handle the events
+     * @return web socket session
+     * @throws BinanceApiException in case of any error
      */
     public Session websocketKlines(BinanceSymbol symbol, BinanceInterval interval, BinanceWebSocketAdapterKline adapter) throws BinanceApiException {
         return getWebsocketSession(symbol.toString().toLowerCase() + "@kline_" + interval.toString(), adapter);
@@ -632,10 +635,10 @@ public class BinanceApi {
 
     /**
      * Trades Websocket Stream Listener
-     * @param symbol
-     * @param adapter
-     * @return
-     * @throws BinanceApiException
+     * @param symbol i.e. "BNBBTC"
+     * @param adapter class to handle the events
+     * @return web socket session
+     * @throws BinanceApiException in case of any error
      */
     public Session websocketTrades(BinanceSymbol symbol, BinanceWebSocketAdapterAggTrades adapter) throws BinanceApiException {
         return getWebsocketSession(symbol.toString().toLowerCase() + "@aggTrade", adapter);
@@ -643,23 +646,24 @@ public class BinanceApi {
 
     /**
      * User Data Websocket Stream Listener
-     * @param listenKey
-     * @param adapter
-     * @return
-     * @throws BinanceApiException
+     * @param listenKey string, received in startUserDataStream()
+     * @param adapter class to handle the event
+     * @return web socket session
+     * @throws BinanceApiException in case of any error
      */
     public Session websocket(String listenKey, BinanceWebSocketAdapterUserData adapter) throws BinanceApiException {
         return getWebsocketSession(listenKey, adapter);
     }
 
     /**
-     * Withdrawal APIs
-     * @param asset
-     * @param address
-     * @param amount
+     * Withdrawal APIs - might not work yet
+     *
+     * @param asset string of asset name, i.e. "BNB"
+     * @param address string of destination wallet address
+     * @param amount amount to be withdrawn
      * @param name label of destination address, can be left empty
      * @return empty json object if success
-     * @throws BinanceApiException
+     * @throws BinanceApiException in case of any error
      */
     public JsonObject withdraw(String asset, String address, long amount, String name) throws BinanceApiException {
         String u = baseWapiUrl + "/v1/withdraw.html?asset=" + esc.escape(asset) +
@@ -673,12 +677,13 @@ public class BinanceApi {
     }
 
     /**
-     * Getting history of withdrawals
-     * @warning: so far response is string. at the moment of writing
+     * Getting history of withdrawals - might not work yet.
+     * So far response is string. at the moment of writing
      * there is a response in Chinese about parameter exception (which cannot be parsed by JSON),
      * and someone seems to still work on that part of server side
-     * @param historyFilter
-     * @return
+     * @param historyFilter structure for user's history filtration
+     * @return Temporary returns String until WAPI will be fixed
+     * @throws BinanceApiException in case of any error
      */
     public String getWithdrawHistory(BinanceHistoryFilter historyFilter) throws BinanceApiException {
         String q = historyFilter.getAsQuery();
@@ -687,12 +692,13 @@ public class BinanceApi {
     }
 
     /**
-     * Getting history of deposits.
-     * @warning: so far response is string. at the moment of writing
+     * Getting history of deposits - might not work yet
+     * So far response is string. at the moment of writing
      * there is a response in Chinese about parameter exception (which cannot be parsed by JSON),
      * and someone seems to still work on that part of server side
-     * @param historyFilter
-     * @return
+     * @param historyFilter structure for user's history filtration
+     * @return Temporary returns String until WAPI will be fixed
+     * @throws BinanceApiException in case of any error
      */
     public String getDepositHistory(BinanceHistoryFilter historyFilter) throws BinanceApiException {
         String q = historyFilter.getAsQuery();

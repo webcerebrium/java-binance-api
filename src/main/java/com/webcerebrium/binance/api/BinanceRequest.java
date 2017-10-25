@@ -74,11 +74,11 @@ public class BinanceRequest {
 
     /**
      * Requests signing - with public and secret key
-     * @param apiKey
-     * @param secretKey
-     * @param options
-     * @return
-     * @throws BinanceApiException
+     * @param apiKey string of public API Key
+     * @param secretKey string of secret Key
+     * @param options map of additional parameters to include
+     * @return this request object
+     * @throws BinanceApiException in case of any error
      */
     public BinanceRequest sign(String apiKey, String secretKey, Map<String, String> options) throws BinanceApiException {
         String humanMessage = "Please check environment variables or VM options";
@@ -120,9 +120,9 @@ public class BinanceRequest {
 
     /**
      * Requests signing - just with a public key
-     * @param apiKey
-     * @return
-     * @throws BinanceApiException
+     * @param apiKey public key string
+     * @return this request object
+     * @throws BinanceApiException in case of any error
      */
     public BinanceRequest sign(String apiKey) throws BinanceApiException {
         String humanMessage = "Please check environment variables or VM options";
@@ -136,7 +136,7 @@ public class BinanceRequest {
 
     /**
      * Settings method as post, keeping interface fluid
-     * @return
+     * @return this request object
      */
     public BinanceRequest post() {
         this.setMethod("POST");
@@ -145,7 +145,7 @@ public class BinanceRequest {
 
     /**
      * Settings method as PUT, keeping interface fluid
-     * @return
+     * @return this request object
      */
     public BinanceRequest put() {
         this.setMethod("PUT");
@@ -155,15 +155,17 @@ public class BinanceRequest {
 
     /**
      * Settings method as DELETE, keeping interface fluid
-     * @return
+     * @return this request object
      */
     public BinanceRequest delete() {
         this.setMethod("DELETE");
         return this;
     }
 
-    /*
-      Opens HTTPS connection and save connection Handler
+    /**
+     * Opens HTTPS connection and save connection Handler
+      @return this request object
+     * @throws BinanceApiException in case of any error
      */
     public BinanceRequest connect() throws BinanceApiException {
 
@@ -217,7 +219,11 @@ public class BinanceRequest {
         return this;
     }
 
-    // Saving response into local string variable
+    /**
+     * Saving response into local string variable
+     * @return this request object
+     * @throws BinanceApiException in case of any error
+     */
     public BinanceRequest read() throws BinanceApiException {
         if (conn == null) {
             connect();
@@ -269,13 +275,15 @@ public class BinanceRequest {
     }
 
     /**
-     * Getting last response as google GAON JsonObject
+     * Getting last response as google JsonObject
+     * @return response as Json Object
      */
     public JsonObject asJsonObject() {
         return (JsonObject)jsonParser.parse(getLastResponse());
     }
     /**
      * Getting last response as google GAON JsonArray
+     * @return response as Json Array
      */
     public JsonArray asJsonArray() {
         return (JsonArray)jsonParser.parse(getLastResponse());

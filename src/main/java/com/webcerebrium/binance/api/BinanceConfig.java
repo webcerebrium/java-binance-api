@@ -14,7 +14,7 @@ import java.util.Properties;
 
 public class BinanceConfig {
 
-    /*
+    /**
      * properties that are loaded from local resource file
      */
     private Properties prop = null;
@@ -38,6 +38,8 @@ public class BinanceConfig {
 
     /**
      * Getting variable from one of the multiple sources available
+     * @param key variable name
+     * @return string result
      */
     public String getVariable(String key) {
         // checking VM options for properties
