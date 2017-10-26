@@ -1,0 +1,25 @@
+<!-- turn debug=true on for logback-test.xml to help debug logging configurations. -->
+<configuration debug="false"> 
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"> 
+    <!-- encoders are  by default assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <root level="WARN">
+    <!--
+    If you want async logging just use ref="ASYNC" instead.
+    We will favor synchronous logging for simplicity. -->
+    <appender-ref ref="STDOUT" />
+  </root>
+  
+  <logger name="root" level="DEBUG" />
+  <logger name="org.eclipse.jetty" level="WARN" />
+  <logger name="com.webcerebrium.binance.api" level="WARN" />
+  <!--  decrease logging for requests / response here: -->
+  <logger name="com.webcerebrium.binance.api.BinanceRequest" level="WARN" />
+
+</configuration>

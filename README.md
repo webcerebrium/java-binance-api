@@ -1,25 +1,62 @@
 # Java Binance API Client
 
-This project is designed to help you make your own projects that interact with the [Binance API](https://www.binance.com/restapipub.html). 
+This library is designed to help you make your own projects that interact with the [Binance API](https://www.binance.com/restapipub.html). 
 This project seeks to have complete API coverage including User Data Streams and WebSockets.
 
 ## Getting Started
 
-For compiling and launching the project from source code, you need
-- `Java 1.8`
-- [`gradle`](https://gradle.org/releases/) dependency manager to be installed
-- File `src/main/resources/application.properties` can be set with Binance API keys:
+#### with Maven
 
+Add the following Maven dependency to your project's `pom.xml`:
 ```
-BINANCE_API_KEY=<key>
-BINANCE_API_SECRET=<secret>
+<dependency>
+  <groupId>com.webcerebrium</groupId>
+  <artifactId>binance-api</artifactId>
+  <version>1.0.3</version>
+</dependency>
 ```
-As alternative, you can set an environment variables or java Virtual Machine properties `BINANCE_API_KEY`, `BINANCE_API_SECRET`
-and they will be accepted in higher priority comparing to resource file.
+
+#### with Gradle
+`compile group: 'com.webcerebrium', name: 'binance-api', version: '1.0.3'`
+
+#### with Grapes
+```
+@Grab(group = 'com.webcerebrium', module = 'binance-api', version = '1.0.3')
+```
+
+## Example of Application
+```
+import com.webcerebrium.binance.api.BinanceApi;
+import com.webcerebrium.binance.api.BinanceApiException;
+
+try {
+  BinanceApi api = new BinanceApi();
+  System.out.println("ETH-BTC PRICE=" + api.pricesMap().get("ETHBTC"));
+} catch (BinanceApiException e) {
+  System.out.println( "ERROR: " + e.getMessage());
+}
+```
+
+## Setting up API KEYS
+
+For API keys you can set an environment variables or java Virtual Machine properties `BINANCE_API_KEY`, `BINANCE_API_SECRET`,
+as well as setting up these variables in resource file of your project
+
+## Logging
+
+Logging configuration can be correcte in `logback.xml` files.
+To suppress requests/response logging, you might want to increase logging level for `BinanceRequest` component:
+```
+<logger name="com.webcerebrium.binance.api.BinanceRequest" level="WARN" />
+```
+
+## Debugging Library from Source 
+
+If you cloned this GITHUB repository, the following tips might be useful:
 
 #### Running tests
 
-Tests with API coverage could be launched with `gradle test`. Before running, make sure API keys are set as described above.
+If you cloned this repository, tests with API coverage could be launched with `gradle test`. Before running, make sure API keys are set as described above.
 For successful trading tests passing, it is desired to have some BTC, ETH and BNB on your account.
 
 #### Running in Eclipse
@@ -28,13 +65,6 @@ This project uses Lombok. You will need to [install lombok per guidelines](https
 #### Running in Intellij IDEA
 This project uses Lombok. You will need to [install corresponding plugin](https://plugins.jetbrains.com/plugin/6317) and enable `Annotation processing` in your `Compiler` settings. It will compile via gradle just fine without this additional installation step.
 To start, import current directory as Gradle project.
-
-### Logging Configuration
-
-Logging configuration can be tuned in `src/main/resources/logback.xml`.
-To learn more, you can read about [Logback](https://logback.qos.ch/manual/index.html).
-
-Logging for requests and responses is disabled by default in the application runner, but enabled in tests.
 
 ## General Endpoints
 
