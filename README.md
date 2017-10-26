@@ -17,11 +17,15 @@ Add the following Maven dependency to your project's `pom.xml`:
 ```
 
 #### with Gradle
-`compile group: 'com.webcerebrium', name: 'binance-api', version: '1.0.3'`
+```
+compile group: 'com.webcerebrium', name: 'binance-api', version: '1.0.3'
+```
 
 #### with Grapes
 ```
+@Grapes([ 
 @Grab(group = 'com.webcerebrium', module = 'binance-api', version = '1.0.3')
+])
 ```
 
 ## Example of Application
@@ -44,7 +48,7 @@ as well as setting up these variables in resource file of your project
 
 ## Logging
 
-Logging configuration can be correcte in `logback.xml` files.
+Logging configuration can be corrected in `logback.xml` files.
 To suppress requests/response logging, you might want to increase logging level for `BinanceRequest` component:
 ```
 <logger name="com.webcerebrium.binance.api.BinanceRequest" level="WARN" />
@@ -66,7 +70,7 @@ This project uses Lombok. You will need to [install lombok per guidelines](https
 This project uses Lombok. You will need to [install corresponding plugin](https://plugins.jetbrains.com/plugin/6317) and enable `Annotation processing` in your `Compiler` settings. It will compile via gradle just fine without this additional installation step.
 To start, import current directory as Gradle project.
 
-## General Endpoints
+## Using API - General Endpoints
 
 #### Checking Server Responsiveness
 ```java
@@ -80,7 +84,7 @@ System.out.println((new BinanceApi()).time().get("serverTime").getAsString());
 ```
 <details><summary>View Output</summary><pre>1508364584572</pre></details>
 
-## Getting Account Information
+## Using API - Getting Account Information
 
 #### Getting Account Information
 
@@ -187,7 +191,7 @@ historyFilter.setStartTime(cal.getTime());
 System.out.println((new BinanceApi()).getWithdrawHistory(historyFilter));
 ```
 
-## Getting Market Data
+## Using API - Getting Market Data
 
 #### Getting Bids and Asks on Symbol
 ```java
@@ -277,7 +281,7 @@ System.out.println("KLINE=" + binanceCandlestick.toString() );
 
 
 
-## Placing Orders
+## Using API - Placing Orders
 
 #### Placing a LIMIT order
 ```java
@@ -340,7 +344,7 @@ System.out.println(order.cancelOrder(order));
 </details>
 
 
-## Using User Data Streams
+## Using API - Using User Data Streams
 
 #### Start User Data Stream
 ```java
@@ -372,7 +376,7 @@ String listenKey = "pqia91ma19a5s61cv6a81va65sdf19v8a65a1a5s61cv6a81va65sdf19v8a
 
 
 
-## Connecting to Web Sockets
+## Using API - Connecting to Web Sockets
 
 #### Depth Web Socket Listener
 ```java
