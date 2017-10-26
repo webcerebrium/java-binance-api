@@ -186,7 +186,7 @@ public class BinanceRequest {
         URL url = null;
         try {
             url = new URL(requestUrl);
-            log.info("{} {}", getMethod(), url);
+            log.debug("{} {}", getMethod(), url);
         } catch (MalformedURLException e) {
             throw new BinanceApiException("Mailformed URL " + e.getMessage());
         }
@@ -232,7 +232,7 @@ public class BinanceRequest {
 
             // posting payload it we do not have it yet
             if (!Strings.isNullOrEmpty(getRequestBody())) {
-                log.info("Payload: {}", getRequestBody());
+                log.debug("Payload: {}", getRequestBody());
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
                 OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
@@ -250,7 +250,7 @@ public class BinanceRequest {
 
             BufferedReader br = new BufferedReader( new InputStreamReader(is));
             lastResponse = IOUtils.toString(br);
-            log.info("Response: {}", lastResponse);
+            log.debug("Response: {}", lastResponse);
 
             if (conn.getResponseCode() >= HttpURLConnection.HTTP_BAD_REQUEST) {
                 // Try to parse JSON
