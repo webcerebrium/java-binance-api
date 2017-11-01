@@ -29,4 +29,17 @@ public class BinanceSymbol {
     public static BinanceSymbol valueOf(String s) throws BinanceApiException {
         return new BinanceSymbol(s);
     }
+
+    public static BinanceSymbol BTC(String pair) throws BinanceApiException {
+       return BinanceSymbol.valueOf(pair.toUpperCase() + "BTC");
+    }
+
+    public static BinanceSymbol ETH(String pair) throws BinanceApiException {
+       return BinanceSymbol.valueOf(pair.toUpperCase() + "ETH");
+    }
+
+    public static BinanceSymbol USDT(String pair) throws BinanceApiException {
+       return BinanceSymbol.valueOf(pair.toUpperCase() + "USDT");
+    }
+
 }
