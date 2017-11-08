@@ -8,6 +8,9 @@ package com.webcerebrium.binance.api;
  * Released under the MIT License
  * ============================================================ */
 
+import com.webcerebrium.binance.datatype.BinanceEventDepthUpdate;
+import com.webcerebrium.binance.datatype.BinanceSymbol;
+import com.webcerebrium.binance.websocket.BinanceWebSocketAdapterDepth;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.websocket.api.Session;
 import org.junit.Before;

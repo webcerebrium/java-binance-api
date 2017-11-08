@@ -1,4 +1,4 @@
-package com.webcerebrium.binance.api;
+package com.webcerebrium.binance.datatype;
 
 
 import com.google.common.base.Strings;

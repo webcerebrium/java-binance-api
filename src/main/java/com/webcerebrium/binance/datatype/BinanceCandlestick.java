@@ -1,4 +1,4 @@
-package com.webcerebrium.binance.api;
+package com.webcerebrium.binance.datatype;
 
 /* ============================================================
  * java-binance-api
@@ -11,6 +11,7 @@ package com.webcerebrium.binance.api;
 // Internal variables are not human readable. So this class contains better readable getters
 
 import com.google.gson.JsonArray;
+import com.webcerebrium.binance.api.BinanceApiException;
 import lombok.Data;
 
 import java.math.BigDecimal;

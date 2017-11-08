@@ -1,4 +1,4 @@
-package com.webcerebrium.binance.api;
+package com.webcerebrium.binance.datatype;
 /* ============================================================
  * java-binance-api
  * https://github.com/webcerebrium/java-binance-api
@@ -7,12 +7,15 @@ package com.webcerebrium.binance.api;
  * Released under the MIT License
  * ============================================================ */
 
-public enum BinanceOrderStatus {
-    NEW,
-    PARTIALLY_FILLED,
-    FILLED,
-    CANCELED,
-    PENDING_CANCEL,
-    REJECTED,
-    EXPIRED
+public enum BinanceRejectReason {
+    NONE,
+    UNKNOWN_INSTRUMENT,
+    MARKET_CLOSED,
+    PRICE_QTY_EXCEED_HARD_LIMITS,
+    UNKNOWN_ORDER,
+    DUPLICATE_ORDER,
+    UNKNOWN_ACCOUNT,
+    INSUFFICIENT_BALANCE,
+    ACCOUNT_INACTIVE,
+    ACCOUNT_CANNOT_SETTLE
 }

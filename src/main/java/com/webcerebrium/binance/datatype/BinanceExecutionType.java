@@ -1,4 +1,4 @@
-package com.webcerebrium.binance.api;
+package com.webcerebrium.binance.datatype;
 /* ============================================================
  * java-binance-api
  * https://github.com/webcerebrium/java-binance-api
@@ -7,6 +7,6 @@ package com.webcerebrium.binance.api;
  * Released under the MIT License
  * ============================================================ */
 
-public enum BidType {
-    BID, ASK
+public enum  BinanceExecutionType {
+    NEW, CANCELED, REPLACED, REJECTED, TRADE, EXPIRED
 }

@@ -1,4 +1,4 @@
-package com.webcerebrium.binance.api;
+package com.webcerebrium.binance.datatype;
 /* ============================================================
  * java-binance-api
  * https://github.com/webcerebrium/java-binance-api
@@ -10,6 +10,7 @@ package com.webcerebrium.binance.api;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.webcerebrium.binance.api.BinanceApiException;
 import lombok.Data;
 
 import java.util.LinkedList;
@@ -63,12 +64,12 @@ public class BinanceEventDepthUpdate {
         bids = new LinkedList<>();
         JsonArray b = event.get("b").getAsJsonArray();
         for (JsonElement bidElement : b) {
-            bids.add( new BinanceBidOrAsk(BidType.BID, bidElement.getAsJsonArray()));
+            bids.add( new BinanceBidOrAsk(BinanceBidType.BID, bidElement.getAsJsonArray()));
         }
         asks = new LinkedList<>();
         JsonArray a = event.get("a").getAsJsonArray();
         for (JsonElement askElement : a) {
-            asks.add( new BinanceBidOrAsk(BidType.ASK, askElement.getAsJsonArray()));
+            asks.add( new BinanceBidOrAsk(BinanceBidType.ASK, askElement.getAsJsonArray()));
         }
     }
 }

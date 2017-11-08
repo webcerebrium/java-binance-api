@@ -1,4 +1,4 @@
-package com.webcerebrium.binance.api;
+package com.webcerebrium.binance.datatype;
 /* ============================================================
  * java-binance-api
  * https://github.com/webcerebrium/java-binance-api
@@ -15,13 +15,13 @@ import java.math.BigDecimal;
 @Data
 public class BinanceBidOrAsk {
 
-    public BidType type;
+    public BinanceBidType type;
     public BigDecimal price = null;
     public BigDecimal quantity = null;
 
     public BinanceBidOrAsk() {}
 
-    public BinanceBidOrAsk(BidType type, JsonArray arr) {
+    public BinanceBidOrAsk(BinanceBidType type, JsonArray arr) {
         this.type = type;
         this.price = arr.get(0).getAsBigDecimal();
         this.quantity = arr.get(1).getAsBigDecimal();

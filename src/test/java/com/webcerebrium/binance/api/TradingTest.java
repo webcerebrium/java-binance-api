@@ -11,6 +11,13 @@ package com.webcerebrium.binance.api;
 // This class contains tests for trading. Take it wisely
 
 import com.google.gson.JsonObject;
+import com.webcerebrium.binance.datatype.BinanceOrder;
+import com.webcerebrium.binance.datatype.BinanceOrderPlacement;
+import com.webcerebrium.binance.datatype.BinanceOrderSide;
+import com.webcerebrium.binance.datatype.BinanceOrderType;
+import com.webcerebrium.binance.datatype.BinanceSymbol;
+import com.webcerebrium.binance.datatype.BinanceTimeInForce;
+import com.webcerebrium.binance.datatype.BinanceWalletAsset;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;

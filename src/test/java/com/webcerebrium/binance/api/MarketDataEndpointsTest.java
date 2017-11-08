@@ -10,6 +10,11 @@ package com.webcerebrium.binance.api;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.webcerebrium.binance.datatype.BinanceAggregatedTrades;
+import com.webcerebrium.binance.datatype.BinanceCandlestick;
+import com.webcerebrium.binance.datatype.BinanceInterval;
+import com.webcerebrium.binance.datatype.BinanceSymbol;
+import com.webcerebrium.binance.datatype.BinanceTicker;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-# Java Binance API Client
+# Java Binance Unofficial API Client
 
 This library is designed to help you make your own projects that interact with the [Binance API](https://www.binance.com/restapipub.html). 
 This project seeks to have complete API coverage including User Data Streams and WebSockets.

@@ -1,5 +1,9 @@
 package com.webcerebrium.binance.api;
 
+import com.webcerebrium.binance.datatype.BinanceEventKline;
+import com.webcerebrium.binance.datatype.BinanceInterval;
+import com.webcerebrium.binance.datatype.BinanceSymbol;
+import com.webcerebrium.binance.websocket.BinanceWebSocketAdapterKline;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.websocket.api.Session;
 import org.junit.Before;

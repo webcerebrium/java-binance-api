@@ -1,4 +1,4 @@
-package com.webcerebrium.binance.api;
+package com.webcerebrium.binance.datatype;
 /* ============================================================
  * java-binance-api
  * https://github.com/webcerebrium/java-binance-api
@@ -8,6 +8,7 @@ package com.webcerebrium.binance.api;
  * ============================================================ */
 
 import com.google.gson.JsonObject;
+import com.webcerebrium.binance.api.BinanceApiException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 

@@ -9,6 +9,7 @@ package com.webcerebrium.binance.api;
  * ============================================================ */
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.escape.Escaper;
 import com.google.common.net.UrlEscapers;
 import com.google.gson.Gson;
@@ -16,6 +17,21 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.webcerebrium.binance.datatype.BinanceAggregatedTrades;
+import com.webcerebrium.binance.datatype.BinanceCandlestick;
+import com.webcerebrium.binance.datatype.BinanceExchangeStats;
+import com.webcerebrium.binance.datatype.BinanceHistoryFilter;
+import com.webcerebrium.binance.datatype.BinanceInterval;
+import com.webcerebrium.binance.datatype.BinanceOrder;
+import com.webcerebrium.binance.datatype.BinanceOrderPlacement;
+import com.webcerebrium.binance.datatype.BinanceSymbol;
+import com.webcerebrium.binance.datatype.BinanceTicker;
+import com.webcerebrium.binance.datatype.BinanceTrade;
+import com.webcerebrium.binance.datatype.BinanceWalletAsset;
+import com.webcerebrium.binance.websocket.BinanceWebSocketAdapterAggTrades;
+import com.webcerebrium.binance.websocket.BinanceWebSocketAdapterDepth;
+import com.webcerebrium.binance.websocket.BinanceWebSocketAdapterKline;
+import com.webcerebrium.binance.websocket.BinanceWebSocketAdapterUserData;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
@@ -31,6 +47,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @Data
@@ -76,7 +93,7 @@ public class BinanceApi {
      * Constructor of API - keys are loaded from VM options, environment variables, resource files
      * @throws BinanceApiException in case of any error
      */
-    public BinanceApi() throws BinanceApiException {
+    public BinanceApi() {
         BinanceConfig config = new BinanceConfig();
         this.apiKey = config.getVariable("BINANCE_API_KEY");
         this.secretKey = config.getVariable("BINANCE_SECRET_KEY");
@@ -235,6 +252,20 @@ public class BinanceApi {
         return klines(symbol, interval, 500, null);
     }
 
+
+    /**
+     * get public statistics on binance
+     * This is stated to be a temporary solution - not a part of API documentation yet
+
+     * @return BinanceExchangeStat
+     * @throws BinanceApiException in case of any error
+     */
+    public BinanceExchangeStats publicStats() throws BinanceApiException {
+        JsonObject jsonObject = (new BinanceRequest("https://www.binance.com/exchange/public/product"))
+                .read().asJsonObject();
+        return new BinanceExchangeStats(jsonObject);
+    }
+
     /**
      * 24hr ticker price change statistics
      * @param symbol Symbol pair, i.e. BNBBTC
@@ -299,6 +330,19 @@ public class BinanceApi {
         for (BinanceTicker t : ticker) mapTickers.put(t.getSymbol(), t);
         return mapTickers;
     }
+
+    public Set<String> getCoinsOf(String coin) {
+        try {
+            BinanceExchangeStats binanceExchangeStats = this.publicStats();
+            return binanceExchangeStats.getCoinsOf(coin.toUpperCase());
+        } catch (Exception e) {
+            log.error("BINANCE UNCAUGHT EXCEPTION {}", e);
+        } catch (BinanceApiException e) {
+            log.warn("BINANCE ERROR {}", e.getMessage());
+        }
+        return ImmutableSet.of();
+    }
+
 
     // - - - - - - - - - - - - - - - - - - - - - - - -
     // ACCOUNT READ-ONLY ENDPOINTS

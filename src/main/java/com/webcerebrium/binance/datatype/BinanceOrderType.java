@@ -1,4 +1,4 @@
-package com.webcerebrium.binance.api;
+package com.webcerebrium.binance.datatype;
 
 /* ============================================================
  * java-binance-api
@@ -8,7 +8,7 @@ package com.webcerebrium.binance.api;
  * Released under the MIT License
  * ============================================================ */
 
-public enum BinanceOrderSide {
-    BUY,
-    SELL
+public enum BinanceOrderType {
+    LIMIT,
+    MARKET
 }

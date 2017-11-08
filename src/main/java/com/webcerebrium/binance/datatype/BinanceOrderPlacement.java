@@ -1,4 +1,4 @@
-package com.webcerebrium.binance.api;
+package com.webcerebrium.binance.datatype;
 
 /* ============================================================
  * java-binance-api
@@ -11,6 +11,7 @@ package com.webcerebrium.binance.api;
 import com.google.common.base.Strings;
 import com.google.common.escape.Escaper;
 import com.google.common.net.UrlEscapers;
+import com.webcerebrium.binance.api.BinanceApiException;
 import lombok.Data;
 
 import java.math.BigDecimal;
