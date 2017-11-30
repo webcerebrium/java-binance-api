@@ -91,7 +91,6 @@ public class BinanceApi {
 
     /**
      * Constructor of API - keys are loaded from VM options, environment variables, resource files
-     * @throws BinanceApiException in case of any error
      */
     public BinanceApi() {
         BinanceConfig config = new BinanceConfig();

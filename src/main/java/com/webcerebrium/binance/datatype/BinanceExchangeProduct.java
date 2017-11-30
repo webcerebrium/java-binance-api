@@ -2,7 +2,6 @@ package com.webcerebrium.binance.datatype;
 
 import com.google.gson.JsonObject;
 import com.webcerebrium.binance.api.BinanceApiException;
-import com.webcerebrium.liqui.api.LiquiApiException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,12 +39,12 @@ public class BinanceExchangeProduct {
     public BinanceExchangeProduct() {
     }
 
-    private void jsonExpect(JsonObject obj, Set<String> fields) throws LiquiApiException {
+    private void jsonExpect(JsonObject obj, Set<String> fields) throws BinanceApiException {
         Set<String> missing = new HashSet<>();
         for (String f: fields) { if (!obj.has(f) || obj.get(f).isJsonNull()) missing.add(f); }
         if (missing.size() > 0) {
             log.warn("Missing fields {} in {}", missing.toString(), obj.toString());
-            throw new LiquiApiException("Missing fields " + missing.toString());
+            throw new BinanceApiException("Missing fields " + missing.toString());
         }
     }
 
