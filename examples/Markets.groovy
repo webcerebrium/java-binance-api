@@ -1,9 +1,9 @@
 @Grapes([ 
-  @Grab(group = 'com.webcerebrium', module = 'binance-api', version = '1.0.3')
+  @Grab(group = 'com.webcerebrium', module = 'binance-api', version = '1.0.5')
 ])
 import com.webcerebrium.binance.api.BinanceApi;
 import com.webcerebrium.binance.api.BinanceApiException;
-import com.webcerebrium.binance.api.BinanceSymbol;
+import com.webcerebrium.binance.datatype.BinanceSymbol;
 
 try {
   def api = new BinanceApi();
