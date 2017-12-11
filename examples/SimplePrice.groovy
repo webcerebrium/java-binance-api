@@ -1,5 +1,5 @@
 @Grapes([ 
-  @Grab(group = 'com.webcerebrium', module = 'binance-api', version = '1.0.5')
+  @Grab(group = 'com.webcerebrium', module = 'binance-api', version = '1.0.6')
 ])
 import com.webcerebrium.binance.api.BinanceApi;
 import com.webcerebrium.binance.api.BinanceApiException;
