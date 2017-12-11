@@ -53,7 +53,7 @@ public class BinanceRequest {
     public String apiKey = "";
     public String secretKey = "";
 
-    public Map<String, String> headers = new HashMap<String, String>();
+    public Map<String, String> headers = new HashMap<>();
 
     // Internal JSON parser
     private JsonParser jsonParser = new JsonParser();

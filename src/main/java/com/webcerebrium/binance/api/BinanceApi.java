@@ -43,11 +43,11 @@ import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Data
@@ -294,7 +294,7 @@ public class BinanceApi {
      * @throws BinanceApiException in case of any error
      */
     public Map<String, BigDecimal> pricesMap() throws BinanceApiException {
-        Map<String, BigDecimal> map = new HashMap<String, BigDecimal>();
+        Map<String, BigDecimal> map = new ConcurrentHashMap<>();
         for (JsonElement elem : allPrices()) {
             JsonObject obj = elem.getAsJsonObject();
             map.put(obj.get("symbol").getAsString(), obj.get("price").getAsBigDecimal());
@@ -324,7 +324,7 @@ public class BinanceApi {
         Type listType = new TypeToken<List<BinanceTicker>>() {
         }.getType();
 
-        Map<String, BinanceTicker> mapTickers = new HashMap<>();
+        Map<String, BinanceTicker> mapTickers = new ConcurrentHashMap<>();
         List<BinanceTicker> ticker = new Gson().fromJson(lastResponse, listType);
         for (BinanceTicker t : ticker) mapTickers.put(t.getSymbol(), t);
         return mapTickers;
@@ -372,7 +372,7 @@ public class BinanceApi {
      * @throws BinanceApiException  in case of any error
      */
     public Map<String, BinanceWalletAsset> balancesMap() throws BinanceApiException {
-        Map<String, BinanceWalletAsset> mapAssets = new HashMap<>();
+        Map<String, BinanceWalletAsset> mapAssets = new ConcurrentHashMap<>();
         for (JsonElement el : balances()) {
             BinanceWalletAsset w = new BinanceWalletAsset(el.getAsJsonObject());
             mapAssets.put(w.getAsset(), w);
