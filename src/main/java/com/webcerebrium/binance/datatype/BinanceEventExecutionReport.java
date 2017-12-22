@@ -98,8 +98,8 @@ public class BinanceEventExecutionReport {
         priceOfLastFilledTrade = event.get("L").getAsBigDecimal();
         commission = event.get("n").getAsBigDecimal();
 
-        assetOfCommission = event.get("N").getAsString();
-        newClientOrderId = event.get("c").getAsString();
+        //assetOfCommission = event.get("N").getAsString();
+        assetOfCommission = (event.get("N").isJsonNull()? "" : event.get("N").getAsString()); // Binance API returns null for orders, only used for trades
 
         tradeTime = event.get("T").getAsLong();
         tradeId = event.get("t").getAsLong();
