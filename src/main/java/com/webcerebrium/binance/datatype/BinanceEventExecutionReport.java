@@ -80,7 +80,7 @@ public class BinanceEventExecutionReport {
         symbol = BinanceSymbol.valueOf(event.get("s").getAsString());
         newClientOrderId = event.get("c").getAsString();
 
-        side = BinanceOrderSide.valueOf(event.get("c").getAsString());
+        side = BinanceOrderSide.valueOf(event.get("S").getAsString()); // was using "c" again
         type = BinanceOrderType.valueOf(event.get("o").getAsString());
         timeInForce = BinanceTimeInForce.valueOf(event.get("f").getAsString());
 
