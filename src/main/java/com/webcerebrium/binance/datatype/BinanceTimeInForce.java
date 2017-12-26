@@ -12,7 +12,9 @@ public enum BinanceTimeInForce {
     GTC("GTC"),
     GOOD_TILL_CANCELLED("GTC"),
     IMMEDIATE_OR_CANCEL("IOC"),
-    IOC("IOC")
+    IOC("IOC"),
+    FILL_OR_KILL("FOK"),
+    FOK("FOK")
     ;
 
     private String value;
