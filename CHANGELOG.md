@@ -12,3 +12,9 @@
 ## 1.0.6 (2017-12-11)
 
 - Converting `HashMap` instances into `ConcurrentHashMap` to resolve concurrency issues
+
+## 1.0.7 (2017-12-30)
+
+- Added fill-or-kill (FOK) BinanceTimeInForce
+- Fixed NullPointerException while setting assetOfCommission for orders
+- Fixes in BinanceEventExecutionReport

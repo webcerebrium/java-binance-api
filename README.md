@@ -12,19 +12,19 @@ Add the following Maven dependency to your project's `pom.xml`:
 <dependency>
   <groupId>com.webcerebrium</groupId>
   <artifactId>binance-api</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
 </dependency>
 ```
 
 #### with Gradle
 ```
-compile group: 'com.webcerebrium', name: 'binance-api', version: '1.0.6'
+compile group: 'com.webcerebrium', name: 'binance-api', version: '1.0.7'
 ```
 
 #### with Grapes
 ```
 @Grapes([ 
-@Grab(group = 'com.webcerebrium', module = 'binance-api', version = '1.0.6')
+@Grab(group = 'com.webcerebrium', module = 'binance-api', version = '1.0.7')
 ])
 ```
 
