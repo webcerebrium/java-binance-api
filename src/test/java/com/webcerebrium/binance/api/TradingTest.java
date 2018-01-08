@@ -76,6 +76,20 @@ public class TradingTest {
     }
 
     @Test
+    public void testMarketOrder() throws Exception, BinanceApiException {
+        if (canTrade) {
+            // Testing Buying BNB with BTC - using market price
+            BinanceOrderPlacement placement = new BinanceOrderPlacement(symbol, BinanceOrderSide.BUY);
+            placement.setType(BinanceOrderType.MARKET);
+            BigDecimal qty = BigDecimal.ONE; // so we want to buy exactly 1 BNB
+            if (qty.compareTo(BigDecimal.ZERO) > 0) {
+                placement.setQuantity(qty); // sell some our asset for 1 BTC each
+                log.info("Market Order Test = {}", binanceApi.testOrder(placement));
+            }
+        }
+    }
+
+    @Test
     public void testPlacingCheckingLimitOrder() throws Exception, BinanceApiException {
         if (canTrade) {
             BinanceOrderPlacement placement = new BinanceOrderPlacement(symbol, BinanceOrderSide.SELL);

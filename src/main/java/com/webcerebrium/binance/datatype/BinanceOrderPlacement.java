@@ -60,13 +60,14 @@ public class BinanceOrderPlacement {
             // price should be skipped for a market order, we are accepting market price
             // so should timeInForce
         } else {
+            if (timeInForce == null) {
+                throw new BinanceApiException("Order timeInForce is not set");
+            }
+            sb.append("&timeInForce=").append(timeInForce.toString());
             if (price == null || price.compareTo(BigDecimal.ZERO) <= 0) {
                 throw new BinanceApiException("Order price should be bigger than zero");
             }
             sb.append("&price=").append(price.toString());
-            if (timeInForce == null) {
-                sb.append("&timeInForce=").append(timeInForce.toString());
-            }
         }
 
         if (!Strings.isNullOrEmpty(newClientOrderId)) {
