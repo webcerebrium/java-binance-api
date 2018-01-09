@@ -1,7 +1,7 @@
 # Java Binance Unofficial API Client
 
 This library is designed to help you make your own projects that interact with the [Binance API](https://www.binance.com/restapipub.html). 
-This project seeks to have complete API coverage including User Data Streams and WebSockets.
+This project seeks to have complete API coverage including User Data Streams and WebSockets for [Binance Cryptocurrency Exchange](https://www.binance.com/?ref=10155037)
 
 ## Getting Started
 
@@ -26,6 +26,16 @@ compile group: 'com.webcerebrium', name: 'binance-api', version: '1.0.7'
 @Grapes([ 
 @Grab(group = 'com.webcerebrium', module = 'binance-api', version = '1.0.7')
 ])
+```
+
+### with latest source code
+
+After `git clone`, please run `gradle jar`, which will result in having jar under `build/distribution` folder.
+compilation you will have jar in your folder, which could be included as your dependency like this:
+```
+dependencies {
+    compile files('libs/binance-api-1.0.7.jar')
+}
 ```
 
 ## Example of Application
