@@ -74,7 +74,7 @@ If you cloned this repository, tests with API coverage could be launched with `g
 For successful trading tests passing, it is desired to have some BTC, ETH and BNB on your account.
 
 #### Running in Eclipse
-This project uses Lombok. You will need to [install lombok per guidelines](https://projectlombok.org/download.html) to make the project compile in Eclipse. It will compile via gradle just fine without this additional installation step.
+This project uses Lombok. You will need to [install lombok for Eclipse](https://projectlombok.org/setup/eclipse) to make the project compile in Eclipse. It will compile via gradle just fine without this additional installation step.
 
 #### Running in Intellij IDEA
 This project uses Lombok. You will need to [install corresponding plugin](https://plugins.jetbrains.com/plugin/6317) and enable `Annotation processing` in your `Compiler` settings. It will compile via gradle just fine without this additional installation step.
