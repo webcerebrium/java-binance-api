@@ -342,10 +342,10 @@ BinanceOrder order = api.getOrder(symbol, api.createOrder(placement).get("orderI
 System.out.println(order.toString());
 ```
 
-#### Cancel an order
+#### Cancel/Delete an order
 ```java
 BinanceOrder order = api.getOrder(symbol, 123456L);
-System.out.println(order.cancelOrder(order));
+System.out.println(order.deleteOrder(order));
 ```
 <details><summary>View Output</summary>
 <pre>
