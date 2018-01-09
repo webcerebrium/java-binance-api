@@ -19,6 +19,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.webcerebrium.binance.datatype.BinanceAggregatedTrades;
 import com.webcerebrium.binance.datatype.BinanceCandlestick;
+import com.webcerebrium.binance.datatype.BinanceExchangeInfo;
 import com.webcerebrium.binance.datatype.BinanceExchangeStats;
 import com.webcerebrium.binance.datatype.BinanceHistoryFilter;
 import com.webcerebrium.binance.datatype.BinanceInterval;
@@ -253,7 +254,7 @@ public class BinanceApi {
 
 
     /**
-     * get public statistics on binance
+     * get public statistics on Binance markets
      * This is stated to be a temporary solution - not a part of API documentation yet
 
      * @return BinanceExchangeStat
@@ -263,6 +264,17 @@ public class BinanceApi {
         JsonObject jsonObject = (new BinanceRequest("https://www.binance.com/exchange/public/product"))
                 .read().asJsonObject();
         return new BinanceExchangeStats(jsonObject);
+    }
+
+    /**
+     * Exchange info - information about open markets
+     * @return BinanceExchangeInfo
+     * @throws BinanceApiException in case of any error
+     */
+    public BinanceExchangeInfo exchangeInfo() throws BinanceApiException {
+        JsonObject jsonObject = (new BinanceRequest(baseUrl + "v1/exchangeInfo"))
+                .read().asJsonObject();
+        return new BinanceExchangeInfo(jsonObject);
     }
 
     /**

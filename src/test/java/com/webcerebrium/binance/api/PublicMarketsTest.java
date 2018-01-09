@@ -7,6 +7,7 @@ package com.webcerebrium.binance.api;
  * Released under the MIT License
  * ============================================================ */
 
+import com.webcerebrium.binance.datatype.BinanceExchangeInfo;
 import com.webcerebrium.binance.datatype.BinanceExchangeStats;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -25,6 +26,12 @@ public class PublicMarketsTest {
     @Test
     public void testPublicMarkets() throws Exception, BinanceApiException {
         BinanceExchangeStats binanceExchangeStats = binanceApi.publicStats();
-        log.info("Exchange Stats: {}", binanceExchangeStats.toString());
+        log.info("Public Exchange Stats (not documenteD): {}", binanceExchangeStats.toString());
+    }
+
+    @Test
+    public void testExchangeInfo() throws Exception, BinanceApiException {
+        BinanceExchangeInfo binanceExchangeInfo = binanceApi.exchangeInfo();
+        log.info("Exchange Information: {}", binanceExchangeInfo.toString());
     }
 }

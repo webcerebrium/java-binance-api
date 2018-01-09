@@ -10,5 +10,8 @@ package com.webcerebrium.binance.datatype;
 
 public enum BinanceOrderType {
     LIMIT,
-    MARKET
+    MARKET,
+    LIMIT_MAKER,
+    STOP_LOSS_LIMIT,
+    TAKE_PROFIT_LIMIT
 }

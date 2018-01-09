@@ -18,3 +18,8 @@
 - Added fill-or-kill (FOK) BinanceTimeInForce
 - Fixed NullPointerException while setting assetOfCommission for orders
 - Fixes in BinanceEventExecutionReport
+
+## 1.0.8 (2018-01-12)
+
+- Fixes on placing MARKET orders
+- Added exchangeInfo() method to keep track of public markets information
