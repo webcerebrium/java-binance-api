@@ -312,8 +312,7 @@ BinanceApi api = new BinanceApi();
 BinanceSymbol symbol = new BinanceSymbol("ETHBTC");
 BinanceOrderPlacement placement = new BinanceOrderPlacement(symbol, BinanceOrderSide.BUY);
 placement.setType(BinanceOrderType.MARKET);
-placement.setPrice(BigDecimal.valueOf(0.00001));
-placement.setQuantity(BigDecimal.valueOf(10000)); // buy 10000 of asset for 0.00001 BTC
+placement.setQuantity(BigDecimal.valueOf(0.00001)); // buy 0.00001 of ETH (asset) for 0.00001 BTC (base currency)
 BinanceOrder order = api.getOrder(symbol, api.createOrder(placement).get("orderId").getAsLong());
 System.out.println(order.toString());
 ```
