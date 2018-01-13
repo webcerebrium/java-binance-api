@@ -12,19 +12,19 @@ Add the following Maven dependency to your project's `pom.xml`:
 <dependency>
   <groupId>com.webcerebrium</groupId>
   <artifactId>binance-api</artifactId>
-  <version>1.0.7</version>
+  <version>1.0.8</version>
 </dependency>
 ```
 
 #### with Gradle
 ```
-compile group: 'com.webcerebrium', name: 'binance-api', version: '1.0.7'
+compile group: 'com.webcerebrium', name: 'binance-api', version: '1.0.8'
 ```
 
 #### with Grapes
 ```
 @Grapes([ 
-@Grab(group = 'com.webcerebrium', module = 'binance-api', version = '1.0.7')
+@Grab(group = 'com.webcerebrium', module = 'binance-api', version = '1.0.8')
 ])
 ```
 
@@ -34,7 +34,7 @@ After `git clone`, please run `gradle jar`, which will result in having jar unde
 compilation you will have jar in your folder, which could be included as your dependency like this:
 ```
 dependencies {
-    compile files('libs/binance-api-1.0.7.jar')
+    compile files('libs/binance-api-1.0.8.jar')
 }
 ```
 
@@ -288,8 +288,15 @@ System.out.println("KLINE=" + binanceCandlestick.toString() );
 </details>
 
 
-
-
+#### Getting Exchange Market Information (Lot Sizes)
+```java
+BinanceExchangeInfo binanceExchangeInfo = binanceApi.exchangeInfo();
+List<BinanceExchangeSymbol> symbols = binanceExchangeInfo.getSymbols();
+BinanceExchangeSymbol BNB = symbols.stream().filter(a -> a.getQuoteAsset().equals("BNB")).findFirst().get();
+```
+<details><summary>View Output</summary>
+<pre>BNB Lot Size: {"filterType":"LOT_SIZE","minQty":"0.01000000","maxQty":"10000000.00000000","stepSize":"0.01000000"}</pre>
+</details>
 
 ## Using API - Placing Orders
 
@@ -312,7 +319,8 @@ BinanceApi api = new BinanceApi();
 BinanceSymbol symbol = new BinanceSymbol("ETHBTC");
 BinanceOrderPlacement placement = new BinanceOrderPlacement(symbol, BinanceOrderSide.BUY);
 placement.setType(BinanceOrderType.MARKET);
-placement.setQuantity(BigDecimal.valueOf(0.00001)); // buy 0.00001 of ETH (asset) for 0.00001 BTC (base currency)
+placement.setPrice(BigDecimal.valueOf(0.00001));
+placement.setQuantity(BigDecimal.valueOf(10000)); // buy 10000 of asset for 0.00001 BTC
 BinanceOrder order = api.getOrder(symbol, api.createOrder(placement).get("orderId").getAsLong());
 System.out.println(order.toString());
 ```
