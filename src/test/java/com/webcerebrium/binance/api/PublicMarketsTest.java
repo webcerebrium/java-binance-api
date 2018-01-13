@@ -9,9 +9,12 @@ package com.webcerebrium.binance.api;
 
 import com.webcerebrium.binance.datatype.BinanceExchangeInfo;
 import com.webcerebrium.binance.datatype.BinanceExchangeStats;
+import com.webcerebrium.binance.datatype.BinanceExchangeSymbol;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 @Slf4j
 
@@ -26,12 +29,14 @@ public class PublicMarketsTest {
     @Test
     public void testPublicMarkets() throws Exception, BinanceApiException {
         BinanceExchangeStats binanceExchangeStats = binanceApi.publicStats();
-        log.info("Public Exchange Stats (not documenteD): {}", binanceExchangeStats.toString());
+        log.info("Public Exchange Stats (not documented): {}", binanceExchangeStats.toString());
     }
 
     @Test
     public void testExchangeInfo() throws Exception, BinanceApiException {
         BinanceExchangeInfo binanceExchangeInfo = binanceApi.exchangeInfo();
-        log.info("Exchange Information: {}", binanceExchangeInfo.toString());
+        List<BinanceExchangeSymbol> symbols = binanceExchangeInfo.getSymbols();
+        BinanceExchangeSymbol BNB = symbols.stream().filter(a -> a.getQuoteAsset().equals("BNB")).findFirst().get();
+        log.info("BNB Lot Size: {}", BNB.getLotSize().toString());
     }
 }
