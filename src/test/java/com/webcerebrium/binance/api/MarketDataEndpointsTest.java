@@ -8,6 +8,7 @@ package com.webcerebrium.binance.api;
  * Released under the MIT License
  * ============================================================ */
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.webcerebrium.binance.datatype.BinanceAggregatedTrades;
@@ -20,6 +21,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +74,30 @@ public class MarketDataEndpointsTest {
     }
 
     @Test
+    public void testAggTradesEndpointWithOptions() throws Exception, BinanceApiException {
+        // picking interval of last 15 minutes
+        Long timeEnd = new Date().getTime();
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        cal.add(Calendar.MINUTE, -15);
+        Long timeStart = cal.getTime().getTime();
+
+        Map<String, Long> options = ImmutableMap.of("startTime", timeStart, "endTime", timeEnd);
+        List<BinanceAggregatedTrades> binanceAggregatedTrades = binanceApi.aggTrades(symbol, 5, options);
+
+        assertTrue("Aggregated trades array should be received", binanceAggregatedTrades.size() > 0);
+        // check human-looking getters for the first picked trade
+        BinanceAggregatedTrades trade = binanceAggregatedTrades.get(0);
+
+        assertTrue("First Trade should contain tradeId", trade.getTradeId() > 0);
+        assertTrue("First Trade should contain price", trade.getPrice().compareTo(BigDecimal.ZERO) > 0);
+        assertTrue("First Trade should contain quantity", trade.getQuantity().compareTo(BigDecimal.ZERO) > 0);
+        assertTrue("First Trade should contain firstTradeId", trade.getFirstTradeId() > 0);
+        assertTrue("First Trade should contain lastTradeId", trade.getLastTradeId() > 0);
+        assertTrue("First Trade should contain timestamp", trade.getTimestamp() > 0);
+    }
+
+    @Test
     public void testIntervalsAreConvertedToStrings() throws Exception {
         assertTrue("15min check", BinanceInterval.FIFTEEN_MIN.toString().equals("15m"));
         assertTrue("1 hour check", BinanceInterval.ONE_HOUR.toString().equals("1h"));
@@ -80,6 +108,34 @@ public class MarketDataEndpointsTest {
     public void testKlinesEndpoint() throws Exception, BinanceApiException {
         // checking intervals
         List<BinanceCandlestick> klines = binanceApi.klines(symbol, BinanceInterval.FIFTEEN_MIN, 5, null);
+        assertTrue("Klines should return non-empty array of candlesticks", klines.size() > 0);
+
+        BinanceCandlestick firstCandlestick = klines.get(0);
+        log.info(firstCandlestick.toString());
+        assertNotNull("Candlestick should contain open", firstCandlestick.getOpen());
+        assertNotNull("Candlestick should contain high", firstCandlestick.getHigh());
+        assertNotNull("Candlestick should contain low", firstCandlestick.getLow());
+        assertNotNull("Candlestick should contain close", firstCandlestick.getClose());
+        assertNotNull("Candlestick should contain openTime", firstCandlestick.getOpenTime());
+        assertNotNull("Candlestick should contain closeTime", firstCandlestick.getCloseTime());
+        assertNotNull("Candlestick should contain numberOfTrades", firstCandlestick.getNumberOfTrades());
+        assertNotNull("Candlestick should contain volume", firstCandlestick.getVolume());
+        assertNotNull("Candlestick should contain quoteAssetVolume", firstCandlestick.getQuoteAssetVolume());
+        assertNotNull("Candlestick should contain takerBuyBaseAssetVolume", firstCandlestick.getTakerBuyBaseAssetVolume());
+        assertNotNull("Candlestick should contain takerBuyQuoteAssetVolume", firstCandlestick.getTakerBuyQuoteAssetVolume());
+    }
+
+    @Test
+    public void testKlinesEndpointWithOptions() throws Exception, BinanceApiException {
+        // picking interval of last 3 days
+        Long timeEnd = new Date().getTime();
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        cal.add(Calendar.DATE, -3);
+        Long timeStart = cal.getTime().getTime();
+
+        Map<String, Long> options = ImmutableMap.of("startTime", timeStart, "endTime", timeEnd);
+        List<BinanceCandlestick> klines = binanceApi.klines(symbol, BinanceInterval.FIFTEEN_MIN, 50, options);
         assertTrue("Klines should return non-empty array of candlesticks", klines.size() > 0);
 
         BinanceCandlestick firstCandlestick = klines.get(0);

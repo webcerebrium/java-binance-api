@@ -178,8 +178,8 @@ public class BinanceApi {
         String u = baseUrl + "v1/aggTrades?symbol=" + symbol.get() + "&limit=" + limit;
         if (options != null) {
             for (String optionKey : options.keySet()) {
-                if (!optionKey.equals("fromId") ||
-                        !optionKey.equals("startTime") ||
+                if (!optionKey.equals("fromId") &&
+                        !optionKey.equals("startTime") &&
                         !optionKey.equals("endTime")) {
                     throw new BinanceApiException("Invalid aggTrades option, only fromId, startTime, endTime are allowed");
                 }
@@ -229,7 +229,7 @@ public class BinanceApi {
         String u = baseUrl + "v1/klines?symbol=" + symbol.get() + "&interval=" + interval.toString() + "&limit=" + limit;
         if (options != null) {
             for (String optionKey : options.keySet()) {
-                if (!optionKey.equals("startTime") || !optionKey.equals("endTime")) {
+                if (!optionKey.equals("startTime") && !optionKey.equals("endTime")) {
                     throw new BinanceApiException("Invalid klines option, only startTime, endTime are allowed");
                 }
                 u += "&" + optionKey + "=" + options.get(optionKey);
