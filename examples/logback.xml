@@ -21,5 +21,6 @@
   <logger name="com.webcerebrium.binance.api" level="WARN" />
   <!--  decrease logging for requests / response here: -->
   <logger name="com.webcerebrium.binance.api.BinanceRequest" level="WARN" />
+  <logger name="com.webcerebrium.binance.websocket" level="WARN" />
 
 </configuration>
