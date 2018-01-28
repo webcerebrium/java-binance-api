@@ -36,7 +36,13 @@ public class PublicMarketsTest {
     public void testExchangeInfo() throws Exception, BinanceApiException {
         BinanceExchangeInfo binanceExchangeInfo = binanceApi.exchangeInfo();
         List<BinanceExchangeSymbol> symbols = binanceExchangeInfo.getSymbols();
-        BinanceExchangeSymbol BNB = symbols.stream().filter(a -> a.getQuoteAsset().equals("BNB")).findFirst().get();
-        log.info("BNB Lot Size: {}", BNB.getLotSize().toString());
+        // BinanceExchangeSymbol BNB = symbols.stream().filter(a -> a.getQuoteAsset().equals("BNB")).findFirst().get();
+        // log.info("BNB Lot Size: {}", BNB.getLotSize().toString());
+        symbols
+        .stream()
+        .filter(b -> (b.getBaseAsset().equals("BNB") || b.getQuoteAsset().equals("BNB")))
+        .forEach(a -> {
+             log.info("Base: {} Quote: {} Lot Size: {}", a.getBaseAsset(), a.getQuoteAsset(), a.getLotSize().toString());
+        });
     }
 }
