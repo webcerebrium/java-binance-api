@@ -279,6 +279,16 @@ public class BinanceApi {
 
     /**
      * 24hr ticker price change statistics
+     * @return json array with prices for all symbols
+     * @throws BinanceApiException in case of any error
+     */
+    public JsonArray ticker24hr() throws BinanceApiException {
+        return (new BinanceRequest(baseUrl + "v1/ticker/24hr" ))
+                .read().asJsonArray();
+    }
+
+    /**
+     * 24hr ticker price change statistics
      * @param symbol Symbol pair, i.e. BNBBTC
      * @return json with prices
      * @throws BinanceApiException in case of any error
@@ -287,6 +297,7 @@ public class BinanceApi {
         return (new BinanceRequest(baseUrl + "v1/ticker/24hr?symbol=" + symbol.get()))
                 .read().asJsonObject();
     }
+
 
     /**
      * Latest price for all symbols

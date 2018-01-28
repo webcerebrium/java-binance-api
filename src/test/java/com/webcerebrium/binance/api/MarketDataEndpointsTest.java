@@ -153,6 +153,13 @@ public class MarketDataEndpointsTest {
         assertNotNull("Candlestick should contain takerBuyQuoteAssetVolume", firstCandlestick.getTakerBuyQuoteAssetVolume());
     }
 
+
+    @Test
+    public void testTicker24hrWithoutSymbolEndpoint() throws Exception, BinanceApiException {
+        JsonArray json = binanceApi.ticker24hr();
+        log.info("{}", json.toString());
+    }
+
     @Test
     public void testTicker24hrEndpoint() throws Exception, BinanceApiException {
         JsonObject jsonObject = binanceApi.ticker24hr(symbol);
