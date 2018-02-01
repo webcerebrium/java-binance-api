@@ -308,7 +308,7 @@ BinanceOrderPlacement placement = new BinanceOrderPlacement(symbol, BinanceOrder
 placement.setType(BinanceOrderType.LIMIT);
 placement.setPrice(BigDecimal.valueOf(0.00001));
 placement.setQuantity(BigDecimal.valueOf(10000)); // buy 10000 of asset for 0.00001 BTC
-BinanceOrder order = api.getOrder(symbol, api.createOrder(placement).get("orderId").getAsLong());
+BinanceOrder order = api.getOrderById(symbol, api.createOrder(placement).get("orderId").getAsLong());
 System.out.println(order.toString());
 ```
 
@@ -321,7 +321,7 @@ BinanceOrderPlacement placement = new BinanceOrderPlacement(symbol, BinanceOrder
 placement.setType(BinanceOrderType.MARKET);
 placement.setPrice(BigDecimal.valueOf(0.00001));
 placement.setQuantity(BigDecimal.valueOf(10000)); // buy 10000 of asset for 0.00001 BTC
-BinanceOrder order = api.getOrder(symbol, api.createOrder(placement).get("orderId").getAsLong());
+BinanceOrder order = api.getOrderById(symbol, api.createOrder(placement).get("orderId").getAsLong());
 System.out.println(order.toString());
 ```
 
@@ -333,7 +333,7 @@ BinanceOrderPlacement placement = new BinanceOrderPlacement(symbol, BinanceOrder
 placement.setPrice(BigDecimal.valueOf(0.069));
 placement.setStopPrice(BigDecimal.valueOf(0.068));
 placement.setQuantity(BigDecimal.valueOf(1)); // sell 1 piece of asset
-BinanceOrder order = api.getOrder(symbol, api.createOrder(placement).get("orderId").getAsLong());
+BinanceOrder order = api.getOrderById(symbol, api.createOrder(placement).get("orderId").getAsLong());
 System.out.println(order.toString());
 ```
 
@@ -345,13 +345,13 @@ BinanceOrderPlacement placement = new BinanceOrderPlacement(symbol, BinanceOrder
 placement.setPrice(BigDecimal.valueOf(0.069));
 placement.setQuantity(BigDecimal.valueOf(1)); // sell 1 piece of asset
 placement.setIcebergQty(BigDecimal.valueOf(10));
-BinanceOrder order = api.getOrder(symbol, api.createOrder(placement).get("orderId").getAsLong());
+BinanceOrder order = api.getOrderById(symbol, api.createOrder(placement).get("orderId").getAsLong());
 System.out.println(order.toString());
 ```
 
 #### Cancel/Delete an order
 ```java
-BinanceOrder order = api.getOrder(symbol, 123456L);
+BinanceOrder order = api.getOrderById(symbol, 123456L);
 System.out.println(order.deleteOrder(order));
 ```
 <details><summary>View Output</summary>
