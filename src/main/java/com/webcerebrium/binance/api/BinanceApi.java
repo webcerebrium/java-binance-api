@@ -63,11 +63,13 @@ public class BinanceApi {
      */
     public String baseUrl = "https://www.binance.com/api/";
     /**
-     * W-API Base URL. God knows why it differs from base API.
-     * These endpoints are less stable, another team is instantly working on that part of API
-     * (at the moment of writing that)
+     * Old W-API Base URL. Might not function well at that moment, please use modern wapi3 API instead
      */
     public String baseWapiUrl = "https://www.binance.com/wapi/";
+    /**
+     * W-API3 Base URL.
+     */
+    public String baseWapi3 = "https://api.binance.com/wapi/v3";
     /**
      * Base URL for websockets
      */
@@ -772,6 +774,15 @@ public class BinanceApi {
         return (new BinanceRequest(u)).sign(apiKey).post().read().getLastResponse();
     }
 
+    /**
+    * Getting status of the system
+    * @return Temporary returns JsonObject
+    * @throws BinanceApiException in case of any error
+    */
+    public JsonObject getSystemStatus() throws BinanceApiException {
+        String u = baseWapi3 + "/systemStatus.html";
+        return (new BinanceRequest(u)).read().asJsonObject();
+    }
 }
 
 
