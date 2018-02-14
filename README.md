@@ -53,7 +53,7 @@ try {
 
 ## Setting up API KEYS
 
-For API keys you can set an environment variables or java Virtual Machine properties `BINANCE_API_KEY`, `BINANCE_API_SECRET`,
+For API keys you can set an environment variables or java Virtual Machine properties `BINANCE_API_KEY`, `BINANCE_SECRET_KEY`,
 as well as setting up these variables in resource file of your project
 
 ## Logging
