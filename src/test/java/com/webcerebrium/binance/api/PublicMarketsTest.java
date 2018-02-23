@@ -42,7 +42,7 @@ public class PublicMarketsTest {
         .stream()
         .filter(b -> (b.getBaseAsset().equals("BNB") || b.getQuoteAsset().equals("BNB")))
         .forEach(a -> {
-             log.info("Base: {} Quote: {} Lot Size: {}", a.getBaseAsset(), a.getQuoteAsset(), a.getLotSize().toString());
+             log.info("Base: {} Quote: {} Lot Size: {} Min Notional: {}", a.getBaseAsset(), a.getQuoteAsset(), a.getLotSize().toString(), a.getMinNotionalValue() );
         });
     }
 }
