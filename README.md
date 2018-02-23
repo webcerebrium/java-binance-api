@@ -12,19 +12,19 @@ Add the following Maven dependency to your project's `pom.xml`:
 <dependency>
   <groupId>com.webcerebrium</groupId>
   <artifactId>binance-api</artifactId>
-  <version>1.0.8</version>
+  <version>1.0.9</version>
 </dependency>
 ```
 
 #### with Gradle
 ```
-compile group: 'com.webcerebrium', name: 'binance-api', version: '1.0.8'
+compile group: 'com.webcerebrium', name: 'binance-api', version: '1.0.9'
 ```
 
 #### with Grapes
 ```
 @Grapes([ 
-@Grab(group = 'com.webcerebrium', module = 'binance-api', version = '1.0.8')
+@Grab(group = 'com.webcerebrium', module = 'binance-api', version = '1.0.9')
 ])
 ```
 
@@ -34,7 +34,7 @@ After `git clone`, please run `gradle jar`, which will result in having jar unde
 compilation you will have jar in your folder, which could be included as your dependency like this:
 ```
 dependencies {
-    compile files('libs/binance-api-1.0.8.jar')
+    compile files('libs/binance-api-1.0.9.jar')
 }
 ```
 
@@ -54,7 +54,7 @@ try {
 ## Setting up API KEYS
 
 For API keys you can set an environment variables or java Virtual Machine properties `BINANCE_API_KEY`, `BINANCE_SECRET_KEY`,
-as well as setting up these variables in resource file of your project
+as well as setting up these variables in `application.properties` resource file of your project
 
 ## Logging
 

@@ -24,3 +24,10 @@
 - Fixes on placing MARKET orders
 - Added exchangeInfo() method to keep track of public markets information
 - Fixes of klines() and aggTrades() calls with options
+
+## 1.0.9 (2018-02-23)
+
+- Fix copy/paste bug of getMinNotional()
+- Endpoint for getting system status
+- ticker24hr() without symbols endpoint
+- Improving examples of usage
