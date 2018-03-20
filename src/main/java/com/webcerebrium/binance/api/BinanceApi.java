@@ -29,10 +29,7 @@ import com.webcerebrium.binance.datatype.BinanceSymbol;
 import com.webcerebrium.binance.datatype.BinanceTicker;
 import com.webcerebrium.binance.datatype.BinanceTrade;
 import com.webcerebrium.binance.datatype.BinanceWalletAsset;
-import com.webcerebrium.binance.websocket.BinanceWebSocketAdapterAggTrades;
-import com.webcerebrium.binance.websocket.BinanceWebSocketAdapterDepth;
-import com.webcerebrium.binance.websocket.BinanceWebSocketAdapterKline;
-import com.webcerebrium.binance.websocket.BinanceWebSocketAdapterUserData;
+import com.webcerebrium.binance.websocket.*;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
@@ -663,7 +660,7 @@ public class BinanceApi {
      * @return web socket session
      * @throws BinanceApiException in case of any error
      */
-    public Session websocketDepth20(BinanceSymbol symbol, BinanceWebSocketAdapterDepth adapter) throws BinanceApiException {
+    public Session websocketDepth20(BinanceSymbol symbol, BinanceWebSocketAdapterDepthLevel adapter) throws BinanceApiException {
         return getWebsocketSession(symbol.toString().toLowerCase() + "@depth20", adapter);
     }
 
@@ -674,7 +671,7 @@ public class BinanceApi {
      * @return  web socket session
      * @throws BinanceApiException in case of any error
      */
-    public Session websocketDepth10(BinanceSymbol symbol, BinanceWebSocketAdapterDepth adapter) throws BinanceApiException {
+    public Session websocketDepth10(BinanceSymbol symbol, BinanceWebSocketAdapterDepthLevel adapter) throws BinanceApiException {
         return getWebsocketSession(symbol.toString().toLowerCase() + "@depth10", adapter);
     }
 
@@ -685,7 +682,7 @@ public class BinanceApi {
      * @return web socket session
      * @throws BinanceApiException in case of any error
      */
-    public Session websocketDepth5(BinanceSymbol symbol, BinanceWebSocketAdapterDepth adapter) throws BinanceApiException {
+    public Session websocketDepth5(BinanceSymbol symbol, BinanceWebSocketAdapterDepthLevel adapter) throws BinanceApiException {
         return getWebsocketSession(symbol.toString().toLowerCase() + "@depth5", adapter);
     }
 

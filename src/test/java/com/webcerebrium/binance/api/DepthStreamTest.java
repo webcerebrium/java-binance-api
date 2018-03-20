@@ -8,9 +8,11 @@ package com.webcerebrium.binance.api;
  * Released under the MIT License
  * ============================================================ */
 
+import com.webcerebrium.binance.datatype.BinanceEventDepthLevelUpdate;
 import com.webcerebrium.binance.datatype.BinanceEventDepthUpdate;
 import com.webcerebrium.binance.datatype.BinanceSymbol;
 import com.webcerebrium.binance.websocket.BinanceWebSocketAdapterDepth;
+import com.webcerebrium.binance.websocket.BinanceWebSocketAdapterDepthLevel;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.websocket.api.Session;
 import org.junit.Before;
@@ -33,6 +35,18 @@ public class DepthStreamTest {
         Session session = binanceApi.websocketDepth(symbol, new BinanceWebSocketAdapterDepth() {
             @Override
             public void onMessage(BinanceEventDepthUpdate message) {
+                log.info(message.toString());
+            }
+        });
+        Thread.sleep(3000);
+        session.close();
+    }
+
+    @Test
+    public void testDepth5StreamWatcher() throws Exception, BinanceApiException {
+        Session session = binanceApi.websocketDepth5(symbol, new BinanceWebSocketAdapterDepthLevel() {
+            @Override
+            public void onMessage(BinanceEventDepthLevelUpdate message) {
                 log.info(message.toString());
             }
         });
