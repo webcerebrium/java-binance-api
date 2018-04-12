@@ -3,6 +3,10 @@
 This library is designed to help you make your own projects that interact with the [Binance API](https://www.binance.com/restapipub.html). 
 This project seeks to have complete API coverage including User Data Streams and WebSockets for [Binance Cryptocurrency Exchange](https://www.binance.com/?ref=10155037)
 
+If you are seeking for a version with Android 4+ support, please take a look at
+https://github.com/shufps/java-binance-api
+
+
 ## Getting Started
 
 #### with Maven
