@@ -406,6 +406,22 @@ public class BinanceApi {
     }
 
     /**
+	 * Get all my open orders. <strong>Can use up a lot of Binance Weight. Use with caution.</strong>
+	 * <p>
+	 * {@link https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#current-open-orders-user_data}
+	 * 
+	 * @return List of Orders
+	 * @throws BinanceApiException in case of any error
+	 */
+	public List<BinanceOrder> allOpenOrders() throws BinanceApiException {
+		String u = baseUrl + "v3/openOrders";
+		String lastResponse = (new BinanceRequest(u)).sign(apiKey, secretKey, null).read().getLastResponse();
+		Type listType = new TypeToken<List<BinanceOrder>>() {
+		}.getType();
+		return new Gson().fromJson(lastResponse, listType);
+	}
+    
+    /**
      * Get all open orders on a symbol.
      * @param symbol i.e. BNBBTC
      * @return List of Orders
