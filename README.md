@@ -356,7 +356,7 @@ System.out.println(order.toString());
 #### Cancel/Delete an order
 ```java
 BinanceOrder order = api.getOrderById(symbol, 123456L);
-System.out.println(order.deleteOrder(order));
+System.out.println(api.deleteOrder(order));
 ```
 <details><summary>View Output</summary>
 <pre>
